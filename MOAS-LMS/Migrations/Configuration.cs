@@ -50,7 +50,7 @@ namespace MOAS_LMS.Migrations
                 }
             }
 
-            var adminUser = userManager.FindByName("admin@Gymbokning.se");
+            var adminUser = userManager.FindByName("admin@lms.se");
             //adminUser.FirstName = "Henrik";
             //adminUser.LastName = "Svensson";
             //adminUser.TimeOfRegistration = DateTime.Now;
