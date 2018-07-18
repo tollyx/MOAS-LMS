@@ -72,6 +72,30 @@ namespace MOAS_LMS.Migrations
                     }
                     );
             }
+
+            db.SaveChanges();
+            for (int i = 1; i < 17; i++)
+            {
+                CourseModel tempCourse;
+                if (i <= 4) tempCourse = db.Courses.Single(c => c.Title == "Course1");
+                else if (i <= 8) tempCourse = db.Courses.Single(c => c.Title == "Course2");
+                else if (i <= 12) tempCourse = db.Courses.Single(c => c.Title == "Course3");
+                else tempCourse = db.Courses.Single(c => c.Title == "Course4");
+
+                DateTime tempTime = DateTime.Now + new TimeSpan(5 * ((i-1) % 4), 0, 0, 0); 
+
+                db.Modules.AddOrUpdate(
+                    c => c.Name,
+                    new ModuleModel
+                    {
+                        Name = "Module" + i,
+                        Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+                        StartDate = tempTime,
+                        EndDate = tempTime + new TimeSpan(5, 0, 0, 0),
+                        Course = tempCourse
+                    }
+                );
+            }
         }
     }
 }
