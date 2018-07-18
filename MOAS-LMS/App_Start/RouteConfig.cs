@@ -13,7 +13,7 @@ namespace MOAS_LMS {
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+                defaults: new { controller = "Course", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
