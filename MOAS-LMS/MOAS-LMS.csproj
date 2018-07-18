@@ -204,6 +204,10 @@
     <Compile Include="Migrations\201807181134038_init.Designer.cs">
       <DependentUpon>201807181134038_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807181213202_Add-Course-And-Model.cs" />
+    <Compile Include="Migrations\201807181213202_Add-Course-And-Model.Designer.cs">
+      <DependentUpon>201807181213202_Add-Course-And-Model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CourseModel.cs" />
@@ -289,6 +293,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201807181134038_init.resx">
       <DependentUpon>201807181134038_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807181213202_Add-Course-And-Model.resx">
+      <DependentUpon>201807181213202_Add-Course-And-Model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
