@@ -26,5 +26,7 @@ namespace MOAS_LMS.Models {
         public static ApplicationDbContext Create() {
             return new ApplicationDbContext();
         }
+
+        DbSet<CourseModel> Courses { get; set; }
     }
 }
