@@ -13,5 +13,7 @@ namespace MOAS_LMS.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public virtual CourseModel Course { get; set; }
+        public virtual IEnumerable<ActivityModel> Activities { get; set; }
+
     }
 }
