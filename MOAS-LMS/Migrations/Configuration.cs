@@ -68,7 +68,7 @@ namespace MOAS_LMS.Migrations
                         Title = "Course" + i,
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
                         StartDate = DateTime.Now,
-                        EndDate = DateTime.Now
+                        EndDate = DateTime.Now + new TimeSpan(100,0,0,0)
                     }
                     );
             }
