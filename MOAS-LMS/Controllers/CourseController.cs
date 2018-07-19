@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MOAS_LMS.Models;
+using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
@@ -18,9 +20,25 @@ namespace MOAS_LMS.Controllers
         // GET: CourseModels
         public ActionResult Index()
         {
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = db.Users.Where(u => u.Id == currentUserId).SingleOrDefault();
 
-
-            return View(db.Courses.ToList());
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                return View(db.Courses.ToList());
+            }
+            else if (currentUser.Course != null)
+            {
+                return RedirectToAction("Details", new {id = currentUser.Course.Id});
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: CourseModels/Details/5
@@ -35,10 +53,21 @@ namespace MOAS_LMS.Controllers
 
             var user = db.Users.First(u => u.UserName == User.Identity.Name);
             if (courseModel == null || (!User.IsInRole("Admin") && user.Course?.Id != id))
+
             {
                 return HttpNotFound();
             }
-            return View(courseModel);
+
+            CourseViewModel courseViewModel = new CourseViewModel
+            {
+                Id = courseModel.Id,
+                Title = courseModel.Title,
+                Description = courseModel.Description,
+                StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
+                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy")
+            };
+
+            return View(courseViewModel);
         }
 
         // GET: CourseModels/Create
