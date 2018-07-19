@@ -68,9 +68,47 @@ namespace MOAS_LMS.Migrations
                         Title = "Course" + i,
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
                         StartDate = DateTime.Now,
-                        EndDate = DateTime.Now + new TimeSpan(100,0,0,0)
+                        EndDate = DateTime.Now.AddDays(13)
                     }
                     );
+            }
+
+            db.SaveChanges();
+            const int moduleLength = 3;
+            foreach (var course in db.Courses.ToList()) {
+                for (int j = 0; j < 4; j++) {
+                    db.Modules.AddOrUpdate(
+                        c => c.Name,
+                        new ModuleModel {
+                            Name = $"Module{course.Id}-{j}",
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+                            StartDate = course.StartDate.AddDays(j * moduleLength),
+                            EndDate = course.StartDate.AddDays((j + 1) * moduleLength),
+                            Course = course
+                        }
+                    );
+                }
+            }
+
+            db.SaveChanges();
+            int activityi = 0;
+            const int activitylength = 1;
+            var actTypes = new[] { "E-Learning", "Föreläsning", "Inlämningsuppgift" };
+            foreach (var module in db.Modules.ToList()) {
+                foreach (var act in actTypes) {
+                    db.Activities.AddOrUpdate(
+                        a => a.Name,
+                        new ActivityModel {
+                            Name = act + module.Id,
+                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
+                            StartDate = module.StartDate.AddDays(activityi*activitylength),
+                            EndDate = module.StartDate.AddDays((activityi+1)*activitylength),
+                            ActivityType = act,
+                            Module = module,
+                        }
+                    );
+                    activityi++;
+                }
             }
         }
     }

@@ -1,48 +1,36 @@
-﻿@model MOAS_LMS.Models.CourseModel
+﻿@model MOAS_LMS.Models.View.CourseViewModel
 
 @{
     ViewBag.Title = "Details";
+
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4>CourseModel</h4>
+    <h4>Details</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+    <h2>
+        @Html.DisplayFor(model => model.Title)
+    </h2>
+    <span>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+        <b>@Html.DisplayFor(model => model.StartDate)</b>
+    </span>
+    <span> | </span>
+    <span>
+        <b>@Html.DisplayFor(model => model.EndDate)</b>
+    </span>
+    <dd>
+        @Html.DisplayFor(model => model.Description)
+    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
 
-    </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
