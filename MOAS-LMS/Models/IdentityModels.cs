@@ -29,5 +29,6 @@ namespace MOAS_LMS.Models {
 
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<ModuleModel> Modules { get; set; }
+        public DbSet<ActivityModel> Activities { get; set; }
     }
 }
