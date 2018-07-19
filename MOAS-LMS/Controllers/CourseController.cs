@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MOAS_LMS.Models;
+using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
@@ -28,11 +29,22 @@ namespace MOAS_LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             CourseModel courseModel = db.Courses.Find(id);
+
             if (courseModel == null)
             {
                 return HttpNotFound();
             }
-            return View(courseModel);
+
+            CourseViewModel courseViewModel = new CourseViewModel
+            {
+                Id = courseModel.Id,
+                Title = courseModel.Title,
+                Description = courseModel.Description,
+                StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
+                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy")
+            };
+
+            return View(courseViewModel);
         }
 
         // GET: CourseModels/Create
