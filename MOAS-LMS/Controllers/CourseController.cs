@@ -60,7 +60,8 @@ namespace MOAS_LMS.Controllers
                 Title = courseModel.Title,
                 Description = courseModel.Description,
                 StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
-                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy")
+                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy"),
+                Students = courseModel.Students.ToList()
             };
 
             return View(courseViewModel);
