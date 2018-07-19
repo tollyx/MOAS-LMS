@@ -58,6 +58,13 @@ namespace MOAS_LMS.Migrations
             userManager.Update(adminUser);
             userManager.AddToRole(adminUser.Id, "Admin");
 
+            db.ActivityTypes.AddOrUpdate(
+                at => at.Name,
+                new ActivityType { Name = "E-Learning", AllowUploads = false },
+                new ActivityType { Name = "Föreläsning", AllowUploads = false },
+                new ActivityType { Name = "Inlämningsuppgift", AllowUploads = true }
+                );
+            db.SaveChanges();
 
             for (int i = 1; i < 10; i++)
             {
@@ -93,16 +100,19 @@ namespace MOAS_LMS.Migrations
             db.SaveChanges();
             int activityi = 0;
             const int activitylength = 1;
-            var actTypes = new[] { "E-Learning", "Föreläsning", "Inlämningsuppgift" };
-            foreach (var module in db.Modules.ToList()) {
-                foreach (var act in actTypes) {
+            var actTypes = db.ActivityTypes.ToList();
+            foreach (var module in db.Modules.ToList())
+            {
+                foreach (var act in actTypes)
+                {
                     db.Activities.AddOrUpdate(
                         a => a.Name,
-                        new ActivityModel {
-                            Name = act + module.Id,
+                        new ActivityModel
+                        {
+                            Name = act.Name + module.Id,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
-                            StartDate = module.StartDate.AddDays(activityi*activitylength),
-                            EndDate = module.StartDate.AddDays((activityi+1)*activitylength),
+                            StartDate = module.StartDate.AddDays(activityi * activitylength),
+                            EndDate = module.StartDate.AddDays((activityi + 1) * activitylength),
                             ActivityType = act,
                             Module = module,
                         }
