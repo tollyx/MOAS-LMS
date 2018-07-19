@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MOAS_LMS.Models;
 
 namespace MOAS_LMS.Controllers
@@ -17,7 +18,25 @@ namespace MOAS_LMS.Controllers
         // GET: CourseModels
         public ActionResult Index()
         {
-            return View(db.Courses.ToList());
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = db.Users.Where(u => u.Id == currentUserId).SingleOrDefault();
+
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                return View(db.Courses.ToList());
+            }
+            else if (currentUser.Course != null)
+            {
+                return RedirectToAction("Details", new {id = currentUser.Course.Id});
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
 
         // GET: CourseModels/Details/5
