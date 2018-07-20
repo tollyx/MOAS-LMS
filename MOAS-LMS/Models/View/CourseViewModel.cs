@@ -12,5 +12,7 @@ namespace MOAS_LMS.Models.View
         public string Description;
         public string StartDate;
         public string EndDate;
+        public virtual ModuleModel ModuleModels { get; set; }
     }
+   
 }
