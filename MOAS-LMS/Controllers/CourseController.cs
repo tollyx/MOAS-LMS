@@ -12,6 +12,7 @@ using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -41,6 +42,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: CourseModels/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -49,7 +51,8 @@ namespace MOAS_LMS.Controllers
             }
             CourseModel courseModel = db.Courses.Find(id);
 
-            if (courseModel == null)
+            var user = db.Users.First(u => u.UserName == User.Identity.Name);
+            if (courseModel == null || (!User.IsInRole("Admin") && user.Course?.Id != id))
             {
                 return HttpNotFound();
             }
@@ -60,7 +63,8 @@ namespace MOAS_LMS.Controllers
                 Title = courseModel.Title,
                 Description = courseModel.Description,
                 StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
-                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy")
+                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy"),
+                Students = courseModel.Students.ToList()
             };
 
             return View(courseViewModel);
@@ -123,6 +127,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: CourseModels/Delete/5
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -140,6 +145,7 @@ namespace MOAS_LMS.Controllers
         // POST: CourseModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        
         public ActionResult DeleteConfirmed(int id)
         {
             CourseModel courseModel = db.Courses.Find(id);

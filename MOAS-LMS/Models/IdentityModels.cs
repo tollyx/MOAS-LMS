@@ -27,6 +27,7 @@ namespace MOAS_LMS.Models {
             return new ApplicationDbContext();
         }
 
+        public DbSet<ActivityType> ActivityTypes { get; set; } 
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<ModuleModel> Modules { get; set; }
         public DbSet<ActivityModel> Activities { get; set; }
