@@ -53,7 +53,6 @@ namespace MOAS_LMS.Controllers
 
             var user = db.Users.First(u => u.UserName == User.Identity.Name);
             if (courseModel == null || (!User.IsInRole("Admin") && user.Course?.Id != id))
-
             {
                 return HttpNotFound();
             }
@@ -64,8 +63,8 @@ namespace MOAS_LMS.Controllers
                 Title = courseModel.Title,
                 Description = courseModel.Description,
                 StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
-                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy")
-                
+                EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy"),
+                Students = courseModel.Students.ToList()
             };
 
             ModuleModel moduleModel = new ModuleModel
@@ -76,17 +75,9 @@ namespace MOAS_LMS.Controllers
                 StartDate = courseViewModel.ModuleModels.StartDate,
                 EndDate = courseViewModel.ModuleModels.EndDate,
                Description = courseViewModel.ModuleModels.Description
-            };
-
-            
-
-
-
+            }
             return View(courseViewModel);
-        
-       }
-
- 
+        }
 
         // GET: CourseModels/Create
         public ActionResult Create()
