@@ -196,8 +196,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,9 +215,14 @@
     <Compile Include="Migrations\201807181404096_Add-Activities.Designer.cs">
       <DependentUpon>201807181404096_Add-Activities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs" />
+    <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.Designer.cs">
+      <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActivityModel.cs" />
+    <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\CourseModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -285,6 +292,16 @@
     <Content Include="Views\Course\Details.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Module\Create.cshtml" />
+    <Content Include="Views\Module\Delete.cshtml" />
+    <Content Include="Views\Module\Details.cshtml" />
+    <Content Include="Views\Module\Edit.cshtml" />
+    <Content Include="Views\Module\Index.cshtml" />
+    <Content Include="Views\Activity\Create.cshtml" />
+    <Content Include="Views\Activity\Delete.cshtml" />
+    <Content Include="Views\Activity\Details.cshtml" />
+    <Content Include="Views\Activity\Edit.cshtml" />
+    <Content Include="Views\Activity\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -311,6 +328,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807181404096_Add-Activities.resx">
       <DependentUpon>201807181404096_Add-Activities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.resx">
+      <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
