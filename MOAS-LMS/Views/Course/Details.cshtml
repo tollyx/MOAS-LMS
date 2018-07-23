@@ -30,7 +30,9 @@
             <span>There are no students assigned to this course.</span>
         }
     </p>
+    @if (canEdit) {
     @Html.ActionLink("Register a new Student", "RegisterStudent", "AccountController", new { id = Model.Id }, null)
+    }
     <div>
         @foreach (var module in Model.Modules) {
             <div class="module">
