@@ -10,7 +10,7 @@ namespace MOAS_LMS.Models {
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public virtual IEnumerable<ApplicationUser> Students { get; set; }
-        public virtual IEnumerable<ModuleModel> Modules { get; set; }
+        public virtual ICollection<ApplicationUser> Students { get; set; }
+        public virtual ICollection<ModuleModel> Modules { get; set; }
     }
 }
