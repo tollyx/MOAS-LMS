@@ -31,7 +31,7 @@
         }
     </p>
     @if (canEdit) {
-    @Html.ActionLink("Register a new Student", "RegisterStudent", "AccountController", new { id = Model.Id }, null)
+    @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null)
     }
     <div>
         @foreach (var module in Model.Modules) {
