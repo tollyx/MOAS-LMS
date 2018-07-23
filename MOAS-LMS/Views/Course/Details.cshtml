@@ -2,38 +2,59 @@
 
 @{
     ViewBag.Title = "Details";
-
+    var canEdit = User.IsInRole("Admin");
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Details</h4>
-    <hr />
-
-
-    <h2>
-        @Html.DisplayFor(model => model.Title)
-    </h2>
-    <span>
-
-        <b>@Html.DisplayFor(model => model.StartDate)</b>
-    </span>
-    <span> | </span>
-    <span>
-        <b>@Html.DisplayFor(model => model.EndDate)</b>
-    </span>
-    <dd>
-        <b> @Html.DisplayFor(model => model.Description)</b>
-    </dd>
-
-
-
-
-
-
+    <header>
+        <h2>
+            @Html.DisplayFor(model => model.Title)
+        </h2>
+        <b>@Html.DisplayFor(model => model.StartDate) - @Html.DisplayFor(model => model.EndDate)</b>
+    </header>
+    <p>
+        @Html.DisplayFor(model => model.Description)
+    </p>
+    @if (canEdit) {
+        <p>
+            <span>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index")
+            </span>
+        </p>
+    }
+    <div>
+        @foreach (var module in Model.Modules) {
+            <div class="module">
+                <h4>@module.Name</h4>
+                @if (module.StartDate.Month != module.EndDate.Month) {
+                    <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("MMMM dd, yyyy")</b>
+                }
+                else {
+                    <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("dd, yyyy")</b>
+                }
+                <p>@module.Description</p>
+                @if (canEdit) {
+                    <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null)</span>
+                }
+                <div>
+                    @foreach (var activity in module.Activities) {
+                    <div class="activity">
+                        <h4>@activity.Name</h4>
+                        @if (activity.StartDate.Day != activity.EndDate.Day) {
+                            <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
+                        }
+                        else {
+                            <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
+                        }
+                        <p>@activity.ActivityType.Name</p>
+                        <p>@activity.Description</p>
+                        @if (canEdit) {
+                            <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
+                        }
+                    </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
