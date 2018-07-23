@@ -39,7 +39,7 @@ namespace MOAS_LMS.Migrations
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var emails = new[] { "admin@lms.se", "hannah@elev.lms.se" };
+            var emails = new[] { "admin@lms.se", "hannah@elev.lms.se", "admin2@lms.se"};
             foreach (var email in emails)
             {
                 if (db.Users.Any(u => u.UserName == email)) continue;
@@ -65,6 +65,14 @@ namespace MOAS_LMS.Migrations
                 new ActivityType { Name = "Inlämningsuppgift", AllowUploads = true }
                 );
             db.SaveChanges();
+
+            //var adminUser1 = userManager.FindByName("admin2@lms.se");
+            ////adminUser.FirstName = "Henrik";
+            ////adminUser.LastName = "Svensson";
+            ////adminUser.TimeOfRegistration = DateTime.Now;
+            //userManager.Update(adminUser1);
+            //userManager.AddToRole(adminUser1.Id, "Admin");
+
 
             for (int i = 1; i < 10; i++)
             {
