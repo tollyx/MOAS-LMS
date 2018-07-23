@@ -22,6 +22,15 @@
             </span>
         </p>
     }
+    <p>
+        @if (Model.Students.Count > 0) {
+            <span>@string.Join(", ", Model.Students.Select(s => s.UserName))</span>
+        }
+        else {
+            <span>There are no students assigned to this course.</span>
+        }
+    </p>
+    @Html.ActionLink("Register a new Student", "RegisterStudent", "AccountController", new { id = Model.Id }, null)
     <div>
         @foreach (var module in Model.Modules) {
             <div class="module">
@@ -38,20 +47,20 @@
                 }
                 <div>
                     @foreach (var activity in module.Activities) {
-                    <div class="activity">
-                        <h4>@activity.Name</h4>
-                        @if (activity.StartDate.Day != activity.EndDate.Day) {
-                            <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
-                        }
-                        else {
-                            <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
-                        }
-                        <p>@activity.ActivityType.Name</p>
-                        <p>@activity.Description</p>
-                        @if (canEdit) {
-                            <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
-                        }
-                    </div>
+                        <div class="activity">
+                            <h4>@activity.Name</h4>
+                            @if (activity.StartDate.Day != activity.EndDate.Day) {
+                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
+                            }
+                            else {
+                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
+                            }
+                            <p>@activity.ActivityType.Name</p>
+                            <p>@activity.Description</p>
+                            @if (canEdit) {
+                                <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
+                            }
+                        </div>
                     }
                 </div>
             </div>
