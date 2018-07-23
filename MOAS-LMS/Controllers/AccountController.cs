@@ -18,6 +18,8 @@ namespace MOAS_LMS.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public AccountController()
         {
         }
@@ -135,8 +137,8 @@ namespace MOAS_LMS.Controllers
         }
 
         //
-        // GET: /Account/Register
-        [AllowAnonymous]
+        // GET: /Account/Register  
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             return View();
@@ -145,7 +147,7 @@ namespace MOAS_LMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -172,6 +174,46 @@ namespace MOAS_LMS.Controllers
             return View(model);
         }
 
+        // GET: /Account/RegisterStudent 
+        [Authorize(Roles = "Admin")]
+        public ActionResult RegisterStudent(int id)
+        {
+            var model = new RegisterViewModel {
+                CourseId = id
+            };
+            ViewBag.CourseName = db.Courses.Single(c => c.Id == id).Title;
+            return View(model);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterStudent(RegisterViewModel model)
+        {
+            if (ModelState.IsValid) {
+                var course = db.Courses.SingleOrDefault(c => c.Id == model.CourseId);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Course = course };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded) {
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Details", "Course", new { id = model.CourseId } );
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            ViewBag.CourseName = db.Courses.Single(c => c.Id == model.CourseId).Title;
+            return View(model);
+        }
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
