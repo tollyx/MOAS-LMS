@@ -64,18 +64,9 @@ namespace MOAS_LMS.Controllers
                 Description = courseModel.Description,
                 StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
                 EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy"),
-                Students = courseModel.Students.ToList()
+                Students = courseModel.Students.ToList(),
+                Modules = courseModel.Modules.ToList()
             };
-
-            ModuleModel moduleModel = new ModuleModel
-
-            {
-                Name = courseViewModel.ModuleModels.Name,
-                Id = courseViewModel.ModuleModels.Id,
-                StartDate = courseViewModel.ModuleModels.StartDate,
-                EndDate = courseViewModel.ModuleModels.EndDate,
-               Description = courseViewModel.ModuleModels.Description
-            }
             return View(courseViewModel);
         }
 
