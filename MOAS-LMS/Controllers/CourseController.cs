@@ -81,7 +81,8 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,StartDate,EndDate")] CourseModel courseModel)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,StartDate,EndDate")]
+            CourseModel courseModel)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +114,8 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,StartDate,EndDate")] CourseModel courseModel)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,StartDate,EndDate")]
+            CourseModel courseModel)
         {
             if (ModelState.IsValid)
             {
@@ -159,6 +161,23 @@ namespace MOAS_LMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Teacher()
+        {
+            List<TeacherModel> teacherModels = new List<TeacherModel>();
+
+            foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
+            {
+                var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
+                if (temp2 != null)
+                    teacherModels.Add(new TeacherModel()
+                    {
+                        Username = temp2.UserName
+                    });
+            }
+            return View(teacherModels); //db.Users.ToList());
         }
     }
 }
