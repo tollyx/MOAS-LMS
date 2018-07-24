@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +18,8 @@ namespace MOAS_LMS.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -193,8 +196,8 @@ namespace MOAS_LMS.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await UserManager.AddToRoleAsync(user.Id, "Admin");
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -459,6 +462,23 @@ namespace MOAS_LMS.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Teacher()
+        {
+            List<TeacherModel> teacherModels = new List<TeacherModel>();
+
+            foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
+            {
+                var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
+                if (temp2 != null)
+                    teacherModels.Add(new TeacherModel()
+                    {
+                        Username = temp2.UserName
+                    });
+            }
+            return View(teacherModels); //db.Users.ToList());
         }
 
         #region Helpers

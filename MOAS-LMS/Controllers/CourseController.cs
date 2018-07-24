@@ -163,21 +163,21 @@ namespace MOAS_LMS.Controllers
             base.Dispose(disposing);
         }
 
-        [Authorize(Roles = "Admin")]
-        public ActionResult Teacher()
-        {
-            List<TeacherModel> teacherModels = new List<TeacherModel>();
+        //[Authorize(Roles = "Admin")]
+        //public ActionResult Teacher()
+        //{
+        //    List<TeacherModel> teacherModels = new List<TeacherModel>();
 
-            foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
-            {
-                var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
-                if (temp2 != null)
-                    teacherModels.Add(new TeacherModel()
-                    {
-                        Username = temp2.UserName
-                    });
-            }
-            return View(teacherModels); //db.Users.ToList());
-        }
+        //    foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
+        //    {
+        //        var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
+        //        if (temp2 != null)
+        //            teacherModels.Add(new TeacherModel()
+        //            {
+        //                Username = temp2.UserName
+        //            });
+        //    }
+        //    return View(teacherModels); //db.Users.ToList());
+        //}
     }
 }
