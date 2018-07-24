@@ -39,6 +39,7 @@ namespace MOAS_LMS.Controllers
         // GET: Activity/Create
         public ActionResult Create()
         {
+            ViewBag.ActivityTypes = db.ActivityTypes.ToList();
             return View();
         }
 

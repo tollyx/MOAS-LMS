@@ -45,24 +45,29 @@
                 @if (canEdit) {
                     <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null)</span>
                 }
-                <div>
-                    @foreach (var activity in module.Activities) {
-                        <div class="activity">
-                            <h4>@activity.Name</h4>
-                            @if (activity.StartDate.Day != activity.EndDate.Day) {
-                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
-                            }
-                            else {
-                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
-                            }
-                            <p>@activity.ActivityType.Name</p>
-                            <p>@activity.Description</p>
-                            @if (canEdit) {
-                                <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
-                            }
-                        </div>
-                    }
-                </div>
+                    <div>
+                        @foreach (var activity in module.Activities)
+    {
+                    <div class="activity">
+                        <h4>@activity.Name</h4>
+                        @if (activity.StartDate.Day != activity.EndDate.Day)
+    {
+                    <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
+}
+else
+{
+                    <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
+}
+                        <p>@activity.ActivityType.Name</p>
+                        <p>@activity.Description</p>
+                        @if (canEdit)
+    {
+                    <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
+}
+                    </div>
+}
+                       @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
+                    </div>
             </div>
         }
     </div>
