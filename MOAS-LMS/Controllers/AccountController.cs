@@ -20,8 +20,6 @@ namespace MOAS_LMS.Controllers
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _db;
 
-        private ApplicationDbContext db = new ApplicationDbContext();
-
         public AccountController()
         {
         }
