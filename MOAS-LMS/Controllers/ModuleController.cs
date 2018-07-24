@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MOAS_LMS.Models;
+using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
@@ -47,13 +48,26 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Description,StartDate,EndDate")] ModuleModel moduleModel)
+        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] CreateModuleViewModel moduleModel, int? id)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && id != null)
             {
-                db.Modules.Add(moduleModel);
+                var course = db.Courses.FirstOrDefault(c => c.Id == id);
+                if (course == null) {
+                    return HttpNotFound();
+                }
+
+                var module = new ModuleModel {
+                    Course = course,
+                    Name = moduleModel.Name,
+                    Description = moduleModel.Description,
+                    StartDate = moduleModel.StartDate,
+                    EndDate = moduleModel.EndDate,
+                };
+
+                db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Course", new { id });
             }
 
             return View(moduleModel);
