@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -211,6 +212,44 @@ namespace MOAS_LMS.Controllers
             ViewBag.CourseName = course.Title;
             return View(model);
         }
+        //
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult RegisterTeacher()
+        {
+            return View();
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterTeacher(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await UserManager.AddToRoleAsync(user.Id, "Admin");
+                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index", "Course");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -441,6 +480,23 @@ namespace MOAS_LMS.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Teacher()
+        {
+            List<TeacherModel> teacherModels = new List<TeacherModel>();
+
+            foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
+            {
+                var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
+                if (temp2 != null)
+                    teacherModels.Add(new TeacherModel()
+                    {
+                        Username = temp2.UserName
+                    });
+            }
+            return View(teacherModels); //db.Users.ToList());
         }
 
         #region Helpers
