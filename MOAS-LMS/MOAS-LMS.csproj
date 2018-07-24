@@ -305,6 +305,8 @@
     <Content Include="Views\Activity\Edit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
     <Content Include="Views\Account\RegisterStudent.cshtml" />
+    <Content Include="Views\Account\RegisterTeacher.cshtml" />
+    <Content Include="Views\Account\Teacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
