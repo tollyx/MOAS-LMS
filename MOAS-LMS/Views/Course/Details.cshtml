@@ -8,22 +8,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            @foreach (var module in Model.Modules) {
+            @{
                 DateTime tempTime = DateTime.Now.AddDays(-1);
-                foreach (var activity in module.Activities.OrderBy(a => a.StartDate)) {
-                    if (activity.EndDate < DateTime.Now) { continue; }
+                var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
+                foreach (var activity in activities.SkipWhile(a => a.EndDate < DateTime.Now).Take(8)) {
                     <div>
-                        <hr />
-                        @if (activity.StartDate.Date != tempTime.Date) {
-                            <b>@activity.StartDate.ToString("ddd dd, MMMM")</b>
+                        @if (activity.EndDate.Date != tempTime.Date) {
+                            <h4>@activity.StartDate.ToString("ddd dd, MMMM")</h4>
                         }
+                        <b>@activity.Name</b>
                         @if (activity.StartDate.Day != activity.EndDate.Day) {
                             <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</p>
                         }
                         else {
                             <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("HH:mm")</p>
                         }
-                        <p>@activity.Name</p>
+                        <hr />
                     </div>
                     tempTime = activity.StartDate;
                 }
@@ -39,11 +39,6 @@
             <p>
                 @Html.DisplayFor(model => model.Description)
             </p>
-            @if (canEdit) {
-                <p>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index")
-                </p>
-            }
             <p>
                 @if (Model.Students.Count > 0) {
                     <span>@string.Join(", ", Model.Students.Select(s => s.UserName))</span>
@@ -53,7 +48,9 @@
                 }
             </p>
             @if (canEdit) {
-                @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null)
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index") | @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) | @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
+                </p>
             }
             <div>
                 @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
@@ -67,7 +64,7 @@
                         }
                         <p>@module.Description</p>
                         @if (canEdit) {
-                            <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null)</span>
+                        <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null) | @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = module.Id }, null)</span>
                         }
                         <div>
                             @foreach (var activity in module.Activities.OrderBy(a => a.StartDate)) {
@@ -87,13 +84,7 @@
                                 </div>
                             }
                         </div>
-                        @if (canEdit) {
-                          @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
-                        }
                     </div>
-                }
-                @if (canEdit) {
-                    @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
                 }
             </div>
         </div>

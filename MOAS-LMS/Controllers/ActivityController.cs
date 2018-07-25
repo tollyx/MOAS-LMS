@@ -38,8 +38,9 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: Activity/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            ViewBag.CourseId = db.Modules.FirstOrDefault(m => m.Id == id)?.Course.Id;
             ViewBag.ActivityTypes = db.ActivityTypes.ToList();
             return View();
         }
@@ -65,8 +66,9 @@ namespace MOAS_LMS.Controllers
                     
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id });
+                return RedirectToAction("Details", "Course", new { id = activity.Module.Course.Id });
             }
+            ViewBag.CourseId = db.Modules.FirstOrDefault(m => m.Id == id)?.Course.Id;
             ViewBag.ActivityTypes = db.ActivityTypes.ToList();
             return View(activityModel); 
         }
