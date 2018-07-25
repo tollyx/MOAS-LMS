@@ -228,6 +228,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModuleModel.cs" />
     <Compile Include="Models\TeacherModel.cs" />
+    <Compile Include="Models\View\CreateActivityViewModel.cs" />
     <Compile Include="Models\View\CreateModuleViewModel.cs" />
     <Compile Include="Models\View\TeacherViewModel.cs" />
     <Compile Include="Models\View\CourseViewModel.cs" />

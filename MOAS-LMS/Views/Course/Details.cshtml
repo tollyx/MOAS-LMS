@@ -41,9 +41,7 @@
             </p>
             @if (canEdit) {
                 <p>
-                    <span>
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index")
-                    </span>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index")
                 </p>
             }
             <p>
@@ -89,6 +87,9 @@
                                 </div>
                             }
                         </div>
+                        @if (canEdit) {
+                          @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
+                        }
                     </div>
                 }
                 @if (canEdit) {

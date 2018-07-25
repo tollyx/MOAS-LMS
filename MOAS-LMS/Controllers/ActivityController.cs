@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MOAS_LMS.Models;
+using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
@@ -39,6 +40,7 @@ namespace MOAS_LMS.Controllers
         // GET: Activity/Create
         public ActionResult Create()
         {
+            ViewBag.ActivityTypes = db.ActivityTypes.ToList();
             return View();
         }
 
@@ -47,16 +49,26 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ActivityType,Name,StartDate,EndDate,Description")] ActivityModel activityModel)
+        public ActionResult Create([Bind(Include = "Id,ActivityTypeId,Name,StartDate,EndDate,Description")] CreateActivityViewModel activityModel, int? id)
         {
             if (ModelState.IsValid)
             {
-                db.Activities.Add(activityModel);
+                var activity = new ActivityModel
+                {
+                    Name = activityModel.Name,
+                    Description = activityModel.Description,
+                    Module = db.Modules.FirstOrDefault(m => m.Id == id),
+                    ActivityType = db.ActivityTypes.FirstOrDefault(m => m.Id == activityModel.ActivityTypeId),
+                    StartDate = activityModel.StartDate,
+                    EndDate = activityModel.EndDate,
+                };
+                    
+                db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Course", new { id });
             }
-
-            return View(activityModel);
+            ViewBag.ActivityTypes = db.ActivityTypes.ToList();
+            return View(activityModel); 
         }
 
         // GET: Activity/Edit/5
