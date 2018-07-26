@@ -40,7 +40,7 @@ namespace MOAS_LMS.Migrations
             var userManager = new UserManager<ApplicationUser>(userStore);
 
             var students = new[] { "hannah@elev.lms.se", "bert@elev.lms.se", "gustav@elev.lms.se" };
-            var admins = new[] { "admin@lms.se", "admin2@lms.se" };
+            var admins = new[] { "admin@lms.se", "admin2@lms.se", "bobross@lms.se" };
             foreach (var email in admins)
             {
                 if (db.Users.Any(u => u.UserName == email)) continue;
@@ -125,6 +125,68 @@ namespace MOAS_LMS.Migrations
                         }
                     );
                     activityi++;
+                }
+            }
+
+            db.SaveChanges();
+            var ext = new[] { "exe", "zip", "rar", "7z", "docx", "pdf", "tar.gz", "md", "txt", "ppx", "png" };
+            var teachnames = new[] { "Instructions", "Seminar", "Links", "Virus", "Readme" };
+            var teachers = db.Users.Where(u => admins.Contains(u.Email)).ToList();
+            foreach (var course in db.Courses.ToList()) {
+                if (course.Id % 2 == 0) {
+                    var filename = $"{teachnames[course.Id % teachnames.Length]}.{ext[course.Id % ext.Length]}";
+                    var doc = new DocumentModel {
+                        Uploader = teachers[course.Id % teachers.Count],
+                        Course = course,
+                        FileName = filename,
+                        Path = $"Course/{course.Id}/{filename}",
+                        IsHandIn = false,
+                        TimeStamp = course.StartDate.AddDays(-4),
+                    };
+                    db.Documents.AddOrUpdate(d => d.Path, doc);
+                }
+            }
+            foreach (var module in db.Modules.ToList()) {
+                if (module.Id % 2 == 0) {
+                    var filename = $"{teachnames[module.Id % teachnames.Length]}.{ext[module.Id % ext.Length]}";
+                    var doc = new DocumentModel {
+                        Uploader = teachers[module.Id % teachers.Count],
+                        Module = module,
+                        FileName = filename,
+                        Path = $"Module/{module.Id}/{filename}",
+                        IsHandIn = false,
+                        TimeStamp = module.StartDate.AddDays(-4),
+                    };
+                    db.Documents.AddOrUpdate(d => d.Path, doc);
+                }
+            }
+            foreach (var activity in db.Activities.ToList()) {
+                if (activity.Id % 2 == 0) {
+                    var filename = $"{teachnames[activity.Id % teachnames.Length]}.{ext[activity.Id % ext.Length]}";
+                    var doc = new DocumentModel {
+                        Uploader = teachers[activity.Id % teachers.Count],
+                        Activity = activity,
+                        FileName = filename,
+                        Path = $"Activity/{activity.Id}/{filename}",
+                        IsHandIn = false,
+                        TimeStamp = activity.StartDate.AddDays(-4),
+                    };
+                    db.Documents.AddOrUpdate(d => d.Path, doc);
+                }
+                if (activity.ActivityType.AllowUploads) {
+                    int i = activity.Id;
+                    foreach (var student in activity.Module.Course.Students?.ToList()) {
+                        var filename = $"Handin.{ext[i % ext.Length]}";
+                        var doc = new DocumentModel {
+                            Uploader = student,
+                            Activity = activity,
+                            FileName = filename,
+                            Path = $"Activity/{activity.Id}/{filename}",
+                            IsHandIn = true,
+                            TimeStamp = activity.EndDate.AddHours(-2 + i++ % 4),
+                        };
+                        db.Documents.AddOrUpdate(d => d.Path, doc);
+                    }
                 }
             }
         }
