@@ -319,9 +319,6 @@
     <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\Teacher.cshtml" />
-    <Content Include="Views\Account\EditTeacher.cshtml" />
-    <Content Include="Views\Account\DetailsTeacher.cshtml" />
-    <Content Include="Views\Account\DeleteTeacher.cshtml" />
     <Content Include="Views\Document\Create.cshtml" />
     <Content Include="Views\Document\Delete.cshtml" />
     <Content Include="Views\Document\Details.cshtml" />
