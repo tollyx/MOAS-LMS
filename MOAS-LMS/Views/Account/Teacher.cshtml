@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MOAS_LMS.Models.TeacherModel>
+﻿@model IEnumerable<MOAS_LMS.Models.ApplicationUser>
 
 @{
     ViewBag.Title = "Teacher";
@@ -12,13 +12,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Username)
+            @Html.DisplayNameFor(model => model.UserName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Firstname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lastname)
+            @Html.DisplayNameFor(model => model.FullName)
         </th>
         <th></th>
     </tr>
@@ -27,13 +24,10 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Username)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Firstname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lastname)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

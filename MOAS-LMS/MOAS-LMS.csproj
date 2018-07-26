@@ -219,6 +219,10 @@
     <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.Designer.cs">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.cs" />
+    <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.Designer.cs">
+      <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActivityModel.cs" />
@@ -308,6 +312,9 @@
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Course\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\Teacher.cshtml" />
+    <Content Include="Views\Account\EditTeacher.cshtml" />
+    <Content Include="Views\Account\DetailsTeacher.cshtml" />
+    <Content Include="Views\Account\DeleteTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -337,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.resx">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.resx">
+      <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MOAS_LMS.Models
@@ -64,12 +65,20 @@ namespace MOAS_LMS.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please insert a fírst name")]
+        [Display(Name = "First name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please insert a last name")]
+        [Display(Name = "Last name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Please insert an email")]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

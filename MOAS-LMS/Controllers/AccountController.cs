@@ -176,7 +176,7 @@ namespace MOAS_LMS.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /Account/RegisterTeacher
         [AllowAnonymous]
         public ActionResult RegisterTeacher()
         {
@@ -184,15 +184,21 @@ namespace MOAS_LMS.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /Account/RegisterTeacher
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> RegisterTeacher(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -467,18 +473,9 @@ namespace MOAS_LMS.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Teacher()
         {
-            List<TeacherModel> teacherModels = new List<TeacherModel>();
-
-            foreach (var temp in db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList())
-            {
-                var temp2 = db.Users.FirstOrDefault(x => x.Id == temp.UserId);
-                if (temp2 != null)
-                    teacherModels.Add(new TeacherModel()
-                    {
-                        Username = temp2.UserName
-                    });
-            }
-            return View(teacherModels); //db.Users.ToList());
+            var admins = db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList();
+            var users = db.Users.ToList();
+            return View(users.Where(u => admins.Any(a => a.UserId == u.Id)).ToList()); //db.Users.ToList());
         }
 
         #region Helpers
