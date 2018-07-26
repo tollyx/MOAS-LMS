@@ -96,15 +96,15 @@
             @{
                 var assignments = activities.Where(a => a.ActivityType.Name == "Inlämningsuppgift" && a.ActivityType.AllowUploads == true);
                 foreach (var assignment in assignments) {
-                    var turnedIn = assignment.Documents.Any(a => a.Uploader.Email == User.Identity.Name);
+                    var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
                     var aid = "activity" + assignment.Id;
                     if (assignment.EndDate > DateTime.Now || !turnedIn) {
                         <div>
                             <h4>
                                 <a href="#@aid">@assignment.Name</a>
                             </h4>
-                            @if (assignment.EndDate < DateTime.Now) {<b style="color: red">Overdue!</b>}
-                            @if (turnedIn) { <b>Bra skit</b>}
+                            @if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                            @if (turnedIn) { <b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
                             <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
                             <hr />
                         </div>
