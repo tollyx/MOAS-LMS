@@ -38,3 +38,10 @@ textarea {
     padding: 1em;
 }
 
+.overdue {
+    color: red;
+}
+
+.turnedin {
+    color: green;
+}

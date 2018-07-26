@@ -146,6 +146,8 @@ namespace MOAS_LMS.Migrations
                     db.Documents.AddOrUpdate(d => d.Path, doc);
                 }
             }
+
+            db.SaveChanges();
             foreach (var module in db.Modules.ToList()) {
                 if (module.Id % 2 == 0) {
                     var filename = $"{teachnames[module.Id % teachnames.Length]}.{ext[module.Id % ext.Length]}";
@@ -160,6 +162,8 @@ namespace MOAS_LMS.Migrations
                     db.Documents.AddOrUpdate(d => d.Path, doc);
                 }
             }
+
+            db.SaveChanges();
             foreach (var activity in db.Activities.ToList()) {
                 if (activity.Id % 2 == 0) {
                     var filename = $"{teachnames[activity.Id % teachnames.Length]}.{ext[activity.Id % ext.Length]}";

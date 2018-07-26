@@ -220,13 +220,13 @@
     <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.Designer.cs">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201807260738533_Add-Documents.cs" />
-    <Compile Include="Migrations\201807260738533_Add-Documents.Designer.cs">
-      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.cs" />
     <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.Designer.cs">
       <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807261253300_Add-Documents.cs" />
+    <Compile Include="Migrations\201807261253300_Add-Documents.Designer.cs">
+      <DependentUpon>201807261253300_Add-Documents.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -354,11 +354,11 @@
     <EmbeddedResource Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.resx">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201807260738533_Add-Documents.resx">
-      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.resx">
       <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807261253300_Add-Documents.resx">
+      <DependentUpon>201807261253300_Add-Documents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
