@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 
 namespace MOAS_LMS.Models
 {
@@ -12,5 +12,6 @@ namespace MOAS_LMS.Models
         public DateTime EndDate { get; set; }
         public string Description { get; set; }
         public virtual ModuleModel Module { get; set; }
+        public virtual ICollection<DocumentModel> Documents { get; set; }
     }
 }

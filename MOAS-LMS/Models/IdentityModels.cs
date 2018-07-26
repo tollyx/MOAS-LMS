@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -9,6 +10,7 @@ namespace MOAS_LMS.Models {
     public class ApplicationUser : IdentityUser {
 
         public virtual CourseModel Course { get; set; }
+        public virtual ICollection<DocumentModel> Documents { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager) {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -31,5 +33,6 @@ namespace MOAS_LMS.Models {
         public DbSet<CourseModel> Courses { get; set; }
         public DbSet<ModuleModel> Modules { get; set; }
         public DbSet<ActivityModel> Activities { get; set; }
+        public DbSet<DocumentModel> Documents { get; set; }
     }
 }
