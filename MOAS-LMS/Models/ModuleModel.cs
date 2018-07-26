@@ -14,6 +14,6 @@ namespace MOAS_LMS.Models
         public DateTime EndDate{ get; set; }
         public virtual CourseModel Course { get; set; }
         public virtual ICollection<ActivityModel> Activities { get; set; }
-
+        public virtual ICollection<DocumentModel> Documents { get; set; }
     }
 }

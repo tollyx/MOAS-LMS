@@ -219,11 +219,16 @@
     <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.Designer.cs">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807260738533_Add-Documents.cs" />
+    <Compile Include="Migrations\201807260738533_Add-Documents.Designer.cs">
+      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\CourseModel.cs" />
+    <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModuleModel.cs" />
@@ -338,6 +343,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.resx">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807260738533_Add-Documents.resx">
+      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
