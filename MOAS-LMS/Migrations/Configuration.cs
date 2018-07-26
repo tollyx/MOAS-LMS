@@ -61,18 +61,10 @@ namespace MOAS_LMS.Migrations
             db.ActivityTypes.AddOrUpdate(
                 at => at.Name,
                 new ActivityType { Name = "E-Learning", AllowUploads = false },
-                new ActivityType { Name = "Föreläsning", AllowUploads = false },
-                new ActivityType { Name = "Inlämningsuppgift", AllowUploads = true }
+                new ActivityType { Name = "FÃ¶relÃ¤sning", AllowUploads = false },
+                new ActivityType { Name = "InlÃ¤mningsuppgift", AllowUploads = true }
                 );
             db.SaveChanges();
-
-            //var adminUser1 = userManager.FindByName("admin2@lms.se");
-            ////adminUser.FirstName = "Henrik";
-            ////adminUser.LastName = "Svensson";
-            ////adminUser.TimeOfRegistration = DateTime.Now;
-            //userManager.Update(adminUser1);
-            //userManager.AddToRole(adminUser1.Id, "Admin");
-
 
             for (int i = 1; i < 10; i++)
             {

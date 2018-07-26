@@ -88,6 +88,9 @@ namespace MOAS_LMS.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Course")]
+        public int CourseId { get; set; }
     }
 
     public class ResetPasswordViewModel
