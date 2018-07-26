@@ -308,13 +308,12 @@
     <Content Include="Views\Activity\Details.cshtml" />
     <Content Include="Views\Activity\Edit.cshtml" />
     <Content Include="Views\Activity\Index.cshtml" />
+    <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
-    <Content Include="Views\Course\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\Teacher.cshtml" />
     <Content Include="Views\Account\EditTeacher.cshtml" />
     <Content Include="Views\Account\DetailsTeacher.cshtml" />
     <Content Include="Views\Account\DeleteTeacher.cshtml" />
-    <Content Include="Views\Account\RegisterStudent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
