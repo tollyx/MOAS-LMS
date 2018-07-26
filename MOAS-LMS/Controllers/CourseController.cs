@@ -71,6 +71,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: CourseModels/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -95,6 +96,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: CourseModels/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -114,6 +116,7 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Title,Description,StartDate,EndDate")]
             CourseModel courseModel)
         {
@@ -127,7 +130,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: CourseModels/Delete/5
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -145,7 +148,7 @@ namespace MOAS_LMS.Controllers
         // POST: CourseModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             CourseModel courseModel = db.Courses.Find(id);

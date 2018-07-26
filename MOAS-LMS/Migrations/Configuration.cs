@@ -39,8 +39,9 @@ namespace MOAS_LMS.Migrations
             var userStore = new UserStore<ApplicationUser>(db);
             var userManager = new UserManager<ApplicationUser>(userStore);
 
-            var emails = new[] { "admin@lms.se", "hannah@elev.lms.se", "admin2@lms.se"};
-            foreach (var email in emails)
+            var students = new[] { "hannah@elev.lms.se", "bert@elev.lms.se", "gustav@elev.lms.se" };
+            var admins = new[] { "admin@lms.se", "admin2@lms.se" };
+            foreach (var email in admins)
             {
                 if (db.Users.Any(u => u.UserName == email)) continue;
                 var user = new ApplicationUser { UserName = email, Email = email };
@@ -49,14 +50,8 @@ namespace MOAS_LMS.Migrations
                 {
                     throw new Exception(string.Join("\n", result.Errors));
                 }
+                userManager.AddToRole(user.Id, "Admin");
             }
-
-            var adminUser = userManager.FindByName("admin@lms.se");
-            //adminUser.FirstName = "Henrik";
-            //adminUser.LastName = "Svensson";
-            //adminUser.TimeOfRegistration = DateTime.Now;
-            userManager.Update(adminUser);
-            userManager.AddToRole(adminUser.Id, "Admin");
 
             db.ActivityTypes.AddOrUpdate(
                 at => at.Name,
@@ -78,6 +73,18 @@ namespace MOAS_LMS.Migrations
                         EndDate = DateTime.Now.AddDays(13)
                     }
                     );
+            }
+            db.SaveChanges();
+
+            var usercourse = db.Courses.First();
+            foreach (var email in students) {
+                if (db.Users.Any(u => u.UserName == email)) continue;
+                var user = new ApplicationUser { UserName = email, Email = email, Course = usercourse };
+                var result = userManager.Create(user, "password");
+                if (!result.Succeeded) {
+                    throw new Exception(string.Join("\n", result.Errors));
+                }
+                userManager.AddToRole(user.Id, "User");
             }
 
             db.SaveChanges();

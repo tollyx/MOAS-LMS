@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -219,6 +220,10 @@
     <Compile Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.Designer.cs">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807260738533_Add-Documents.cs" />
+    <Compile Include="Migrations\201807260738533_Add-Documents.Designer.cs">
+      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.cs" />
     <Compile Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.Designer.cs">
       <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>
@@ -228,10 +233,13 @@
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ActivityType.cs" />
     <Compile Include="Models\CourseModel.cs" />
+    <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ModuleModel.cs" />
     <Compile Include="Models\TeacherModel.cs" />
+    <Compile Include="Models\View\CreateActivityViewModel.cs" />
+    <Compile Include="Models\View\CreateModuleViewModel.cs" />
     <Compile Include="Models\View\TeacherViewModel.cs" />
     <Compile Include="Models\View\CourseViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -314,6 +322,11 @@
     <Content Include="Views\Account\EditTeacher.cshtml" />
     <Content Include="Views\Account\DetailsTeacher.cshtml" />
     <Content Include="Views\Account\DeleteTeacher.cshtml" />
+    <Content Include="Views\Document\Create.cshtml" />
+    <Content Include="Views\Document\Delete.cshtml" />
+    <Content Include="Views\Document\Details.cshtml" />
+    <Content Include="Views\Document\Edit.cshtml" />
+    <Content Include="Views\Document\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -343,6 +356,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.resx">
       <DependentUpon>201807191345050_Added-activitytypes-and-changed-activitytype-prop-in-activitymodel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807260738533_Add-Documents.resx">
+      <DependentUpon>201807260738533_Add-Documents.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807260754201_Updated-db-with-first-and-last-name.resx">
       <DependentUpon>201807260754201_Updated-db-with-first-and-last-name.cs</DependentUpon>

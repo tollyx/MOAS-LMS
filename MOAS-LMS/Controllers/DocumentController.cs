@@ -7,125 +7,110 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MOAS_LMS.Models;
-using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class ModuleController : Controller
+    public class DocumentController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Module
+        // GET: DocumentModels
         public ActionResult Index()
         {
-            return View(db.Modules.ToList());
+            return View(db.Documents.ToList());
         }
 
-        // GET: Module/Details/5
+        // GET: DocumentModels/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ModuleModel moduleModel = db.Modules.Find(id);
-            if (moduleModel == null)
+            DocumentModel documentModel = db.Documents.Find(id);
+            if (documentModel == null)
             {
                 return HttpNotFound();
             }
-            return View(moduleModel);
+            return View(documentModel);
         }
 
-        // GET: Module/Create
+        // GET: DocumentModels/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Module/Create
+        // POST: DocumentModels/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,StartDate,EndDate")] CreateModuleViewModel moduleModel, int? id)
+        public ActionResult Create([Bind(Include = "Id,FileName,Path,TimeStamp,Feedback,IsHandIn")] DocumentModel documentModel)
         {
-            if (ModelState.IsValid && id != null)
+            if (ModelState.IsValid)
             {
-                var course = db.Courses.FirstOrDefault(c => c.Id == id);
-                if (course == null) {
-                    return HttpNotFound();
-                }
-
-                var module = new ModuleModel {
-                    Course = course,
-                    Name = moduleModel.Name,
-                    Description = moduleModel.Description,
-                    StartDate = moduleModel.StartDate,
-                    EndDate = moduleModel.EndDate,
-                };
-
-                db.Modules.Add(module);
+                db.Documents.Add(documentModel);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id });
+                return RedirectToAction("Index");
             }
 
-            return View(moduleModel);
+            return View(documentModel);
         }
 
-        // GET: Module/Edit/5
+        // GET: DocumentModels/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ModuleModel moduleModel = db.Modules.Find(id);
-            if (moduleModel == null)
+            DocumentModel documentModel = db.Documents.Find(id);
+            if (documentModel == null)
             {
                 return HttpNotFound();
             }
-            return View(moduleModel);
+            return View(documentModel);
         }
 
-        // POST: Module/Edit/5
+        // POST: DocumentModels/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartDate,EndDate")] ModuleModel moduleModel)
+        public ActionResult Edit([Bind(Include = "Id,FileName,Path,TimeStamp,Feedback,IsHandIn")] DocumentModel documentModel)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(moduleModel).State = EntityState.Modified;
+                db.Entry(documentModel).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(moduleModel);
+            return View(documentModel);
         }
 
-        // GET: Module/Delete/5
+        // GET: DocumentModels/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ModuleModel moduleModel = db.Modules.Find(id);
-            if (moduleModel == null)
+            DocumentModel documentModel = db.Documents.Find(id);
+            if (documentModel == null)
             {
                 return HttpNotFound();
             }
-            return View(moduleModel);
+            return View(documentModel);
         }
 
-        // POST: Module/Delete/5
+        // POST: DocumentModels/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            ModuleModel moduleModel = db.Modules.Find(id);
-            db.Modules.Remove(moduleModel);
+            DocumentModel documentModel = db.Documents.Find(id);
+            db.Documents.Remove(documentModel);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
