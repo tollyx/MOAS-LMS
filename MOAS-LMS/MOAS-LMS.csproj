@@ -198,7 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActivityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
-    <Compile Include="Controllers\DocumentModelsController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -315,11 +315,11 @@
     <Content Include="Views\Account\RegisterStudent.cshtml" />
     <Content Include="Views\Account\RegisterTeacher.cshtml" />
     <Content Include="Views\Account\Teacher.cshtml" />
-    <Content Include="Views\DocumentModels\Create.cshtml" />
-    <Content Include="Views\DocumentModels\Delete.cshtml" />
-    <Content Include="Views\DocumentModels\Details.cshtml" />
-    <Content Include="Views\DocumentModels\Edit.cshtml" />
-    <Content Include="Views\DocumentModels\Index.cshtml" />
+    <Content Include="Views\Document\Create.cshtml" />
+    <Content Include="Views\Document\Delete.cshtml" />
+    <Content Include="Views\Document\Details.cshtml" />
+    <Content Include="Views\Document\Edit.cshtml" />
+    <Content Include="Views\Document\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

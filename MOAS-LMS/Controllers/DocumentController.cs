@@ -10,7 +10,7 @@ using MOAS_LMS.Models;
 
 namespace MOAS_LMS.Controllers
 {
-    public class DocumentModelsController : Controller
+    public class DocumentController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
