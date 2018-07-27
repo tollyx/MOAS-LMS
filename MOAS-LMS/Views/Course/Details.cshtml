@@ -44,7 +44,7 @@
             </p>
             <p>
                 @if (Model.Students.Count > 0) {
-                    <span>@string.Join(", ", Model.Students.Select(s => s.UserName))</span>
+                    <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
                 }
                 else {
                     <span>There are no students assigned to this course.</span>
