@@ -17,7 +17,7 @@
                         @if (activity.EndDate.Date != tempTime.Date) {
                             <h4>@activity.StartDate.ToString("ddd dd, MMMM")</h4>
                         }
-                        <a href="#@aid">
+                        <a href="#@aid" onclick="expandActivity(@activity.Id)">
                             <b>@activity.Name</b>
                         </a>
                         @if (activity.StartDate.Day != activity.EndDate.Day) {
@@ -58,35 +58,39 @@
             <div>
                 @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
                     <div class="module">
-                        <h4>@module.Name</h4>
-                        @if (module.StartDate.Month != module.EndDate.Month) {
-                            <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("MMMM dd, yyyy")</b>
-                        }
-                        else {
-                            <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("dd, yyyy")</b>
-                        }
-                        <p>@module.Description</p>
-                        @if (canEdit) {
-                            <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null) | @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = module.Id }, null)</span>
-                        }
-                        <div>
-                            @foreach (var activity in module.Activities.OrderBy(a => a.StartDate)) {
-                                var aid = "activity" + activity.Id;
-                                <div class="activity" id="@aid">
-                                    <h4>@activity.Name</h4>
-                                    @if (activity.StartDate.Day != activity.EndDate.Day) {
-                                        <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
-                                    }
-                                    else {
-                                        <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
-                                    }
-                                    <p>@activity.ActivityType.Name</p>
-                                    <p>@activity.Description</p>
-                                    @if (canEdit) {
-                                        <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
-                                    }
-                                </div>
+                        <button class="collapsible">@module.Name</button>
+                        <div class="content">
+                            @if (module.StartDate.Month != module.EndDate.Month) {
+                                <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("MMMM dd, yyyy")</b>
                             }
+                            else {
+                                <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("dd, yyyy")</b>
+                            }
+                            <p>@module.Description</p>
+                            @if (canEdit) {
+                                <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null) | @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = module.Id }, null)</span>
+                            }
+                            <div>
+                                @foreach (var activity in module.Activities.OrderBy(a => a.StartDate)) {
+                                    var aid = "activity" + activity.Id;
+                                    <div class="activity" id="@aid">
+                                        <button class="collapsible">@activity.Name</button>
+                                        <div class="content">
+                                            @if (activity.StartDate.Day != activity.EndDate.Day) {
+                                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</b>
+                                            }
+                                            else {
+                                                <b>@activity.StartDate.ToString("ddd dd, HH:mm") - @activity.EndDate.ToString("HH:mm")</b>
+                                            }
+                                            <p>@activity.ActivityType.Name</p>
+                                            <p>@activity.Description</p>
+                                            @if (canEdit) {
+                                                <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
@@ -101,10 +105,10 @@
                     if (assignment.EndDate > DateTime.Now || !turnedIn) {
                         <div>
                             <h4>
-                                <a href="#@aid">@assignment.Name</a>
+                                <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
                             </h4>
                             @if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                            @if (turnedIn) { <b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                            @if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
                             <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
                             <hr />
                         </div>
@@ -114,3 +118,5 @@
         </div>
     </div>
 </div>
+
+<script src="~/Scripts/collapsemenu.js"></script>
