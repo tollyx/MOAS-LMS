@@ -13,5 +13,9 @@ namespace MOAS_LMS.Models {
         public virtual ICollection<ApplicationUser> Students { get; set; }
         public virtual ICollection<ModuleModel> Modules { get; set; }
         public virtual ICollection<DocumentModel> Documents { get; set; }
+
+        public bool HasUserAccess(ApplicationUser user) {
+            return this == user.Course;
+        }
     }
 }

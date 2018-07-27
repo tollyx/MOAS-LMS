@@ -15,5 +15,9 @@ namespace MOAS_LMS.Models {
         public string Feedback { get; set; }
         public ApplicationUser Uploader { get; set; }
         public bool IsHandIn { get; set; }
+
+        public bool HasUserAccess(ApplicationUser user) {
+            return Activity?.HasUserAccess(user) ?? Module?.HasUserAccess(user) ?? Course?.HasUserAccess(user) ?? false;
+        }
     }
 }

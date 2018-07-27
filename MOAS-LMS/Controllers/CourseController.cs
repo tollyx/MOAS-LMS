@@ -52,7 +52,7 @@ namespace MOAS_LMS.Controllers
             CourseModel courseModel = db.Courses.Find(id);
 
             var user = db.Users.First(u => u.UserName == User.Identity.Name);
-            if (courseModel == null || (!User.IsInRole("Admin") && user.Course?.Id != id))
+            if (courseModel == null || (!User.IsInRole("Admin") && !courseModel.HasUserAccess(user)))
             {
                 return HttpNotFound();
             }

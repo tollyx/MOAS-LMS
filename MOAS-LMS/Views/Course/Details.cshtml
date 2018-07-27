@@ -87,6 +87,28 @@
                                             @if (canEdit) {
                                                 <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
                                             }
+                                            @if (activity.ActivityType.AllowUploads) {
+                                                <br />
+                                                <b>HandIns</b>
+                                                <ul>
+                                                    @if (User.IsInRole("Admin")) {
+                                                        foreach (var doc in activity.Documents.Where(d => d.IsHandIn)) {
+                                                            <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                        }
+                                                    }
+                                                    else {
+                                                        foreach (var doc in activity.Documents.Where(d => d.IsHandIn && d.Uploader.Email == User.Identity.Name)) {
+                                                            <li><a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                        }
+                                                    }
+                                                </ul>
+                                                if (!User.IsInRole("Admin")) {
+                                                    <form action="/Document/UploadHandIn/@activity.Id" method="post" enctype="multipart/form-data">
+                                                        <input type="file" name="file" value="" />
+                                                        <input type="submit" value="Upload" />
+                                                    </form>
+                                                }
+                                            }
                                         </div>
                                     </div>
                                 }
