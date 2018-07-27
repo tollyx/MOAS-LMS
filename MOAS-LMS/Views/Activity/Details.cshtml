@@ -50,8 +50,25 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Documents)
+        </dt>
+
+        <dd>
+            <ul>
+                @foreach (var doc in Model.Documents) {
+                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                }
+            </ul>
+        </dd>
     </dl>
 </div>
+@if (Model.ActivityType.AllowUploads) {
+    <form action="/Document/UploadHandIn/@Model.Id" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" id="file" value="" />
+        <input type="submit"/>
+    </form>
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

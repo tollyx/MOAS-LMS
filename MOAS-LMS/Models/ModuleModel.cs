@@ -15,5 +15,9 @@ namespace MOAS_LMS.Models
         public virtual CourseModel Course { get; set; }
         public virtual ICollection<ActivityModel> Activities { get; set; }
         public virtual ICollection<DocumentModel> Documents { get; set; }
+
+        public bool HasUserAccess(ApplicationUser user) {
+            return Course?.HasUserAccess(user) ?? false;
+        }
     }
 }
