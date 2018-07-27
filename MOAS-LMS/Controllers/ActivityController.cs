@@ -11,7 +11,7 @@ using MOAS_LMS.Models.View;
 
 namespace MOAS_LMS.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class ActivityController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -30,14 +30,17 @@ namespace MOAS_LMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ActivityModel activityModel = db.Activities.Find(id);
-            if (activityModel == null)
+            var user = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (activityModel == null || !activityModel.HasUserAccess(user))
             {
                 return HttpNotFound();
             }
+
             return View(activityModel);
         }
 
         // GET: Activity/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(int? id)
         {
             ViewBag.CourseId = db.Modules.FirstOrDefault(m => m.Id == id)?.Course.Id;
@@ -50,6 +53,7 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,ActivityTypeId,Name,StartDate,EndDate,Description")] CreateActivityViewModel activityModel, int? id)
         {
             if (ModelState.IsValid)
@@ -74,6 +78,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: Activity/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -93,6 +98,7 @@ namespace MOAS_LMS.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,ActivityType,Name,StartDate,EndDate,Description")] ActivityModel activityModel)
         {
             if (ModelState.IsValid)
@@ -105,6 +111,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: Activity/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -122,6 +129,7 @@ namespace MOAS_LMS.Controllers
         // POST: Activity/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             ActivityModel activityModel = db.Activities.Find(id);

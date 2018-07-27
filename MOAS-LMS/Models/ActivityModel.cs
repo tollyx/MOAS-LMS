@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MOAS_LMS.Models
 {
@@ -13,5 +14,9 @@ namespace MOAS_LMS.Models
         public string Description { get; set; }
         public virtual ModuleModel Module { get; set; }
         public virtual ICollection<DocumentModel> Documents { get; set; }
+
+        public bool HasUserAccess(ApplicationUser user) {
+            return Module?.HasUserAccess(user) ?? false;
+        }
     }
 }
