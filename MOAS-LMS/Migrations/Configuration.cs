@@ -79,7 +79,7 @@ namespace MOAS_LMS.Migrations
             var usercourse = db.Courses.First();
             foreach (var email in students) {
                 if (db.Users.Any(u => u.UserName == email)) continue;
-                var user = new ApplicationUser { UserName = email, Email = email, Course = usercourse };
+                var user = new ApplicationUser { UserName = email, Email = email, Course = usercourse, FirstName = email.Substring(0, email.IndexOf('@')), LastName = email.Substring(0, email.IndexOf('@'))+"sson" };
                 var result = userManager.Create(user, "password");
                 if (!result.Succeeded) {
                     throw new Exception(string.Join("\n", result.Errors));
