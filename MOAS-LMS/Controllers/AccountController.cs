@@ -155,7 +155,14 @@ namespace MOAS_LMS.Controllers
             var course = db.Courses.SingleOrDefault(c => c.Id == model.CourseId);
             if (ModelState.IsValid) {
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Course = course };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Course = course,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded) {
                     await UserManager.AddToRoleAsync(user.Id, "User");
