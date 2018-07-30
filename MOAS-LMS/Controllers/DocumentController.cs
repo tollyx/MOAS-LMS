@@ -188,7 +188,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id = module.Id });
+            return RedirectToAction("Details", "Course", new { id = module?.Course?.Id });
         }
 
         [Authorize(Roles = "Admin")]
