@@ -224,7 +224,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id = activity.Id });
+            return RedirectToAction("Details", "Course", new { id = activity?.Module?.Course?.Id });
         }
 
         public ActionResult Get(int? id) {
