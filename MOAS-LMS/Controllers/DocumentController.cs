@@ -99,7 +99,7 @@ namespace MOAS_LMS.Controllers
             foreach (var document in file) {
                 var filename = Path.GetFileName(document.FileName);
                 var guid = Guid.NewGuid().ToString();
-                var folder = Server.MapPath($"~/App_Data/Uploads/{uploader.Id}/{activity.Id}/");
+                var folder = Server.MapPath($"~/App_Data/Uploads/HandIns/{uploader.Id}/{activity.Id}/");
                 var path = Path.Combine(folder, guid);
                 Directory.CreateDirectory(folder);
                 document.SaveAs(path);
@@ -116,6 +116,115 @@ namespace MOAS_LMS.Controllers
             }
             db.SaveChanges();
             return RedirectToAction("Details", "Course", new { id = uploader.Course.Id });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadToCourse(IEnumerable<HttpPostedFileBase> file, int? id) {
+            if (file == null || id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var course = db.Courses.FirstOrDefault(a => a.Id == id);
+            if (course == null) {
+                return HttpNotFound("Could not find course");
+            }
+            var uploader = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (!User.IsInRole("Admin")) {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            foreach (var document in file) {
+                var filename = Path.GetFileName(document.FileName);
+                var guid = Guid.NewGuid().ToString();
+                var folder = Server.MapPath($"~/App_Data/Uploads/Course/{course.Id}/");
+                var path = Path.Combine(folder, guid);
+                Directory.CreateDirectory(folder);
+                document.SaveAs(path);
+                var doc = new DocumentModel {
+                    FileName = filename,
+                    Path = path,
+                    Uploader = uploader,
+                    TimeStamp = DateTime.Now,
+                    Course = course,
+                    Feedback = null,
+                    IsHandIn = false,
+                };
+                db.Documents.Add(doc);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", "Course", new { id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadToModule(IEnumerable<HttpPostedFileBase> file, int? id) {
+            if (file == null || id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var module = db.Modules.FirstOrDefault(a => a.Id == id);
+            if (module == null) {
+                return HttpNotFound("Could not find module");
+            }
+            var uploader = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (!User.IsInRole("Admin")) {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            foreach (var document in file) {
+                var filename = Path.GetFileName(document.FileName);
+                var guid = Guid.NewGuid().ToString();
+                var folder = Server.MapPath($"~/App_Data/Uploads/Module/{module.Id}/");
+                var path = Path.Combine(folder, guid);
+                Directory.CreateDirectory(folder);
+                document.SaveAs(path);
+                var doc = new DocumentModel {
+                    FileName = filename,
+                    Path = path,
+                    Uploader = uploader,
+                    TimeStamp = DateTime.Now,
+                    Module = module,
+                    Feedback = null,
+                    IsHandIn = false,
+                };
+                db.Documents.Add(doc);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", "Course", new { id = module.Id });
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult UploadToActivity(IEnumerable<HttpPostedFileBase> file, int? id) {
+            if (file == null || id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var activity = db.Activities.FirstOrDefault(a => a.Id == id);
+            if (activity == null) {
+                return HttpNotFound("Could not find activity");
+            }
+            var uploader = db.Users.FirstOrDefault(u => u.Email == User.Identity.Name);
+            if (!User.IsInRole("Admin")) {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+            foreach (var document in file) {
+                var filename = Path.GetFileName(document.FileName);
+                var guid = Guid.NewGuid().ToString();
+                var folder = Server.MapPath($"~/App_Data/Uploads/Activity/{activity.Id}/");
+                var path = Path.Combine(folder, guid);
+                Directory.CreateDirectory(folder);
+                document.SaveAs(path);
+                var doc = new DocumentModel {
+                    FileName = filename,
+                    Path = path,
+                    Uploader = uploader,
+                    TimeStamp = DateTime.Now,
+                    Activity = activity,
+                    Feedback = null,
+                    IsHandIn = false,
+                };
+                db.Documents.Add(doc);
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", "Course", new { id = activity.Id });
         }
 
         public ActionResult Get(int? id) {
@@ -200,8 +309,28 @@ namespace MOAS_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             DocumentModel documentModel = db.Documents.Find(id);
+            var path = documentModel.Path;
+            var act = documentModel.Activity;
+            var mod = documentModel.Module;
+            var cou = documentModel.Course;
             db.Documents.Remove(documentModel);
             db.SaveChanges();
+            try {
+                System.IO.File.Delete(path);
+            }
+            catch (Exception e) {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, $"Could not delete file: {e.ToString()}");
+            }
+
+            if (cou != null) {
+                return RedirectToAction("Details", "Course", new { id = cou.Id });
+            }
+            else if (mod?.Course != null) {
+                return RedirectToAction("Details", "Course", new { id = mod.Course.Id });
+            }
+            else if (act?.Module?.Course != null) {
+                return RedirectToAction("Details", "Course", new { id = act.Module.Course.Id });
+            }
             return RedirectToAction("Index");
         }
 
