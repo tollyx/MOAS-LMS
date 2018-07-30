@@ -28,13 +28,41 @@ textarea {
     border: 2px solid #808080;
     border-radius: 4px;
     margin: 1em;
-    padding: 1em;
+    /*padding: 1em;*/
 }
 
 .activity {
     border: 2px solid #808080;
     border-radius: 4px;
     margin: 1em;
-    padding: 1em;
+    /*padding: 1em;*/
 }
 
+.overdue {
+    color: red;
+}
+
+.turnedin {
+    color: green;
+}
+
+/*Collapsing menus*/
+.collapsible {
+    background-color: #fff;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+}
+
+.collapsible:hover {
+    background-color: #f1f1f1;
+}
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}

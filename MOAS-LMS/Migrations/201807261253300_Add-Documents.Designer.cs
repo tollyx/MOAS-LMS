@@ -13,7 +13,7 @@ namespace MOAS_LMS.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201807260738533_Add-Documents"; }
+            get { return "201807261253300_Add-Documents"; }
         }
         
         string IMigrationMetadata.Source

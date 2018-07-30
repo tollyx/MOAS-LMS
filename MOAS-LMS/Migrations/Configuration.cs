@@ -79,7 +79,7 @@ namespace MOAS_LMS.Migrations
             var usercourse = db.Courses.First();
             foreach (var email in students) {
                 if (db.Users.Any(u => u.UserName == email)) continue;
-                var user = new ApplicationUser { UserName = email, Email = email, Course = usercourse };
+                var user = new ApplicationUser { UserName = email, Email = email, Course = usercourse, FirstName = email.Substring(0, email.IndexOf('@')), LastName = email.Substring(0, email.IndexOf('@'))+"sson" };
                 var result = userManager.Create(user, "password");
                 if (!result.Succeeded) {
                     throw new Exception(string.Join("\n", result.Errors));
@@ -146,6 +146,8 @@ namespace MOAS_LMS.Migrations
                     db.Documents.AddOrUpdate(d => d.Path, doc);
                 }
             }
+
+            db.SaveChanges();
             foreach (var module in db.Modules.ToList()) {
                 if (module.Id % 2 == 0) {
                     var filename = $"{teachnames[module.Id % teachnames.Length]}.{ext[module.Id % ext.Length]}";
@@ -160,6 +162,8 @@ namespace MOAS_LMS.Migrations
                     db.Documents.AddOrUpdate(d => d.Path, doc);
                 }
             }
+
+            db.SaveChanges();
             foreach (var activity in db.Activities.ToList()) {
                 if (activity.Id % 2 == 0) {
                     var filename = $"{teachnames[activity.Id % teachnames.Length]}.{ext[activity.Id % ext.Length]}";
