@@ -18,8 +18,8 @@ function expandActivity(id) {
     k.parentElement.parentElement.style.display = "block";
 
     for (var i = 0; i < k.childNodes.length; i++) {
-        if (k.childNodes[i].className == "content") {
-            k.childNodes[i].style.display = "block";;
+        if (k.childNodes[i].className === "content") {
+            k.childNodes[i].style.display = "block";
         }
     }   
 }
