@@ -4,7 +4,7 @@
     ViewBag.Title = "Teacher";
 }
 
-<h2>Teacher</h2>
+<h2>Teacher index</h2>
 
 <p>
     @Html.ActionLink("Create New", "RegisterTeacher")
@@ -12,7 +12,8 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.UserName)
+            User name
+            @*@Html.DisplayNameFor(model => model.UserName)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FullName)
