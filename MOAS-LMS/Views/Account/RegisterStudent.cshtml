@@ -5,10 +5,27 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("RegisterStudent", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
+@using (Html.BeginForm("RegisterStudent", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
     @Html.AntiForgeryToken()
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName)
+        </div>
+    </div>
+
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -30,7 +47,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.CourseId, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <input class="form-control" disabled value="@ViewBag.CourseName"/>
+            <input class="form-control" disabled value="@ViewBag.CourseName" />
             @Html.TextBoxFor(m => m.CourseId, new { @class = "hidden" })
         </div>
     </div>
