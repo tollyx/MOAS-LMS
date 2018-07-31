@@ -130,12 +130,12 @@
                                                 <ul>
                                                     @if (User.IsInRole("Admin")) {
                                                         foreach (var doc in activity.Documents.Where(d => d.IsHandIn)) {
-                                                            <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                            <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a> <a href="/Document/Feedback/@doc.Id">[Feedback]</a></li>
                                                         }
                                                     }
                                                     else {
                                                         foreach (var doc in activity.Documents.Where(d => d.IsHandIn && d.Uploader.Email == User.Identity.Name)) {
-                                                            <li><a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                            <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (!string.IsNullOrWhiteSpace(doc.Feedback)) { <a href="/Document/Details/@doc.Id">[FeedBack]</a> }</li>
                                                         }
                                                     }
                                                 </ul>
