@@ -13,7 +13,7 @@ namespace MOAS_LMS.Models {
         public string Path { get; set; }
         public DateTime TimeStamp { get; set; }
         public string Feedback { get; set; }
-        public ApplicationUser Uploader { get; set; }
+        public virtual ApplicationUser Uploader { get; set; }
         public bool IsHandIn { get; set; }
 
         public bool HasUserAccess(ApplicationUser user) {
