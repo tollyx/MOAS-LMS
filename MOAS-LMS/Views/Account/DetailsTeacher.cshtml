@@ -1,0 +1,33 @@
+﻿@model MOAS_LMS.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <b>User name</b>
+            @*@Html.DisplayNameFor(model => model.UserName)*@
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Back to List", "Teacher") |
+    @Html.ActionLink("Edit", "EditTeacher", new { id = Model.Id })
+</p>

@@ -97,9 +97,14 @@ namespace MOAS_LMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(moduleModel).State = EntityState.Modified;
+                var module = db.Modules.SingleOrDefault(m => m.Id == moduleModel.Id);
+                module.Name = moduleModel.Name;
+                module.Description = moduleModel.Description;
+                module.StartDate = moduleModel.StartDate;
+                module.EndDate = moduleModel.EndDate;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Details", "Course", new { id = module.Course.Id });
             }
             return View(moduleModel);
         }

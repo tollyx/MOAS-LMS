@@ -124,7 +124,7 @@ namespace MOAS_LMS.Controllers
             {
                 db.Entry(courseModel).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = courseModel.Id});
             }
             return View(courseModel);
         }
