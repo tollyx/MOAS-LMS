@@ -11,7 +11,13 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>@Model.Uploader.FullName: @Model.FileName</h4>
+        @{
+            var student = @Model.Uploader?.FullName;
+            var activityname = Model.Activity?.Name;
+        }
+        <h4>@activityname</h4>
+        <h3>@student: @Model.FileName</h3>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -19,7 +25,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Feedback, new { htmlAttributes = new { @class = "form-control" } })
+                <textarea class="form-control" name="Feedback" id="Feedback">@Model.Feedback</textarea>
                 @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -304,9 +304,10 @@ namespace MOAS_LMS.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Feedback([Bind(Include = "Id,Feedback")] DocumentModel documentModel) {
             if (ModelState.IsValid) {
-                db.Entry(documentModel).State = EntityState.Modified;
+                var doc = db.Documents.FirstOrDefault(d => d.Id == documentModel.Id);
+                doc.Feedback = documentModel.Feedback;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Course", new { id = doc.Activity?.Module?.Course?.Id });
             }
             return View(documentModel);
         }
