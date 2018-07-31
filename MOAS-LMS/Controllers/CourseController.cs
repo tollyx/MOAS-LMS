@@ -57,15 +57,15 @@ namespace MOAS_LMS.Controllers
                 return HttpNotFound();
             }
 
-            CourseViewModel courseViewModel = new CourseViewModel
-            {
+            CourseViewModel courseViewModel = new CourseViewModel {
                 Id = courseModel.Id,
                 Title = courseModel.Title,
                 Description = courseModel.Description,
                 StartDate = courseModel.StartDate.ToString("MMMM dd, yyyy"),
                 EndDate = courseModel.EndDate.ToString("MMMM dd, yyyy"),
                 Students = courseModel.Students.ToList(),
-                Modules = courseModel.Modules.ToList()
+                Modules = courseModel.Modules.ToList(),
+                Documents = courseModel.Documents.ToList(),
             };
             return View(courseViewModel);
         }
@@ -124,7 +124,7 @@ namespace MOAS_LMS.Controllers
             {
                 db.Entry(courseModel).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = courseModel.Id});
             }
             return View(courseModel);
         }
