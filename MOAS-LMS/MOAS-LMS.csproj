@@ -325,6 +325,7 @@
     <Content Include="Views\Document\Details.cshtml" />
     <Content Include="Views\Document\Edit.cshtml" />
     <Content Include="Views\Document\Index.cshtml" />
+    <Content Include="Views\Document\Feedback.cshtml" />
     <Content Include="Views\Account\DeleteTeacher.cshtml" />
     <Content Include="Views\Account\EditTeacher.cshtml" />
     <Content Include="Views\Account\DetailsTeacher.cshtml" />
