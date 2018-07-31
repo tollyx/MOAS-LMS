@@ -50,7 +50,7 @@
             <p>
                 <hr />
                 @if (Model.Students.Count > 0) {
-                    <b>Enrolled sudents:</b><br />
+                    <b>Enrolled students:</b><br />
                     <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
                 }
                 else {
