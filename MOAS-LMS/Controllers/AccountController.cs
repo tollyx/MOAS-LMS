@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -218,13 +220,78 @@ namespace MOAS_LMS.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Course");
+                    return RedirectToAction("Teacher", "Account");
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult DeleteTeacher(string id)
+        {
+            var context = new Models.ApplicationDbContext();
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteTeacher(ApplicationUser appUser)
+        {
+            var context = new ApplicationDbContext();
+            var user = context.Users.FirstOrDefault(u => u.Id == appUser.Id);
+            context.Users.Remove(user);
+            context.SaveChanges();
+
+            return RedirectToAction("Teacher", "Account");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditTeacher(string id)
+        {
+            var context = new ApplicationDbContext();
+            var user = context.Users.FirstOrDefault(u => u.Id == id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult EditTeacher([Bind(Include = "Id,Email,FirstName,LastName")]ApplicationUser appUser)
+        {
+            var context = new ApplicationDbContext();
+            var user = context.Users.FirstOrDefault(u => u.Id == appUser.Id);
+
+            user.Email = appUser.Email;
+            user.UserName = appUser.Email;
+            user.FirstName = appUser.FirstName;
+            user.LastName = appUser.LastName;
+
+            context.SaveChanges();
+
+            return RedirectToAction("Teacher", "Account");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult DetailsTeacher(ApplicationUser appUser)
+        {
+            var context = new ApplicationDbContext();
+            var user = context.Users.FirstOrDefault(u => u.Id == appUser.Id);
+
+            return View(user);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Teacher()
+        {
+            var admins = db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList();
+            var users = db.Users.ToList();
+            return View(users.Where(u => admins.Any(a => a.UserId == u.Id)).ToList()); //db.Users.ToList());
         }
 
         //
@@ -458,15 +525,6 @@ namespace MOAS_LMS.Controllers
 
             base.Dispose(disposing);
         }
-
-        [Authorize(Roles = "Admin")]
-        public ActionResult Teacher()
-        {
-            var admins = db.Roles.FirstOrDefault(x => x.Name == "Admin").Users.ToList();
-            var users = db.Users.ToList();
-            return View(users.Where(u => admins.Any(a => a.UserId == u.Id)).ToList()); //db.Users.ToList());
-        }
-
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
