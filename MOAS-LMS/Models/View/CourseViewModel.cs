@@ -21,5 +21,6 @@ namespace MOAS_LMS.Models.View
 
         public IList<ApplicationUser> Students { get; set; }
         public IList<ModuleModel> Modules { get; set; }
+        public IList<DocumentModel> Documents { get; set; }
     }
 }

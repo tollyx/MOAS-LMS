@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,10 +13,13 @@ namespace MOAS_LMS.Models {
         public virtual CourseModel Course { get; set; }
         public virtual ICollection<DocumentModel> Documents { get; set; }
 
+        [Display(Name = "First name")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-
+        [Display(Name = "Full name")]
         public string FullName
         {
             get

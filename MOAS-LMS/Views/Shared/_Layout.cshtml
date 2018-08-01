@@ -25,6 +25,7 @@
 
                     @if (User.IsInRole("Admin"))
                     {
+                    <li>@Html.ActionLink("Course", "Index", "Course")</li>
                     <li>@Html.ActionLink("Teachers", "Teacher", "Account")</li>
                     }
                 </ul>

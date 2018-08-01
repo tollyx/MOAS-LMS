@@ -42,18 +42,33 @@
             <p>
                 @Html.DisplayFor(model => model.Description)
             </p>
+            <ul>
+                @foreach (var doc in Model.Documents) {
+                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) { @Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null) } </li>
+                }
+            </ul>
             <p>
+                <hr />
+                <b>Enrolled students:</b><br />
                 @if (Model.Students.Count > 0) {
                     <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
                 }
                 else {
                     <span>There are no students assigned to this course.</span>
                 }
+                <hr />
             </p>
             @if (canEdit) {
                 <p>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) | @Html.ActionLink("Back to List", "Index") | @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) | @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                    @Html.ActionLink("Back to List", "Index") |
+                    @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) |
+                    @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
                 </p>
+                <form action="/Document/UploadToCourse/@Model.Id" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" value="" />
+                    <input type="submit" value="Upload" />
+                </form>
             }
             <div>
                 @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
@@ -67,8 +82,21 @@
                                 <b>@module.StartDate.ToString("MMMM dd") - @module.EndDate.ToString("dd, yyyy")</b>
                             }
                             <p>@module.Description</p>
+                            <ul>
+                                @foreach (var doc in module.Documents) {
+                                <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+                                }
+                            </ul>
                             @if (canEdit) {
-                                <span>@Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) | @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null) | @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = module.Id }, null)</span>
+                                <span>
+                                    @Html.ActionLink("Edit", "Edit", "Module", new { id = module.Id }, null) |
+                                    @Html.ActionLink("Delete", "Delete", "Module", new { id = module.Id }, null) |
+                                    @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = module.Id }, null)
+                                </span>
+                                <form action="/Document/UploadToModule/@module.Id" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="file" value="" />
+                                    <input type="submit" value="Upload" />
+                                </form>
                             }
                             <div>
                                 @foreach (var activity in module.Activities.OrderBy(a => a.StartDate)) {
@@ -84,8 +112,20 @@
                                             }
                                             <p>@activity.ActivityType.Name</p>
                                             <p>@activity.Description</p>
+                                            <ul>
+                                                @foreach (var doc in activity.Documents.Where(d => !d.IsHandIn)) {
+                                                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+                                                }
+                                            </ul>
                                             @if (canEdit) {
-                                                <span>@Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) | @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)</span>
+                                                <span>
+                                                    @Html.ActionLink("Edit", "Edit", "Activity", new { id = activity.Id }, null) |
+                                                    @Html.ActionLink("Delete", "Delete", "Activity", new { id = activity.Id }, null)
+                                                </span>
+                                                <form action="/Document/UploadToActivity/@activity.Id" method="post" enctype="multipart/form-data">
+                                                    <input type="file" name="file" value="" />
+                                                    <input type="submit" value="Upload" />
+                                                </form>
                                             }
                                             @if (activity.ActivityType.AllowUploads) {
                                                 <br />
@@ -93,12 +133,12 @@
                                                 <ul>
                                                     @if (User.IsInRole("Admin")) {
                                                         foreach (var doc in activity.Documents.Where(d => d.IsHandIn)) {
-                                                            <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                            <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a> <a href="/Document/Feedback/@doc.Id">[Feedback]</a></li>
                                                         }
                                                     }
                                                     else {
                                                         foreach (var doc in activity.Documents.Where(d => d.IsHandIn && d.Uploader.Email == User.Identity.Name)) {
-                                                            <li><a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
+                                                            <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (!string.IsNullOrWhiteSpace(doc.Feedback)) { <a href="/Document/Details/@doc.Id">[FeedBack]</a> }</li>
                                                         }
                                                     }
                                                 </ul>
@@ -129,8 +169,10 @@
                             <h4>
                                 <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
                             </h4>
-                            @if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                            @if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                            @if (!canEdit) {
+                                 if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                                 if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                            }
                             <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
                             <hr />
                         </div>
