@@ -1,9 +1,26 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    /*;*/
     color: #fff;
-    background-color: #019875;
+    background: linear-gradient(to bottom right,#2E86C1, #3498DB);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    /*background: url('../images/pexels-photo.jpg')no-repeat center center fixed;*/
+    /*background-color: #000;*/
+}
+
+/*html {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}*/
+
+.main {
+   
+    
+
 }
 .logmein {
     background-color: #FAFAFA;
@@ -15,8 +32,13 @@
     margin: 0 auto;
     width: 50%;
     margin-left: 100px;
+    opacity: 0.85;
+    color: #000;
 }
-
+.CourseBody {
+    /*background-color: #85C1E9;*/
+    
+}
 
 .label {
     color: #019875;
@@ -112,7 +134,7 @@ textarea {
     overflow: hidden;
 }
 .navbar-inverse {
-    background-color: #2c3e50;
+    background-color: #34495E;
     border-color: transparent;
 }
     .navbar-inverse .navbar-nav > li > a {
@@ -126,6 +148,7 @@ textarea {
         color: #ffffff;
     }
 .navbar .brand, .navbar .nav > li > a:hover {
+    color: #FFB61E;
     text-decoration: underline;
 }
 .navbar-inverse .navbar-brand {
@@ -136,11 +159,31 @@ a {
     text-decoration: none;
 }
     a:hover {
-        color: #ffffff;
+        color: #f39c12;
         text-decoration: underline;
     }
 .form-control {
     background-color: #ffffff;
 }
+.collapsible {
+    background-color: #34495e;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
 
-
+}
+.center {
+    background-color: white;
+    color: white;
+    
+}
+.left {
+    background-color: white;
+}
+.h4 {
+    background-color: #34495E;
+    color: black;
+}

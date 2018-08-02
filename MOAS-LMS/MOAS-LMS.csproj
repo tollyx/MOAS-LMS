@@ -256,6 +256,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="images\coconut-coconut-trees-island.jpg" />
     <Content Include="images\logo-lexicon.gif" />
+    <Content Include="images\pexels-photo.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
