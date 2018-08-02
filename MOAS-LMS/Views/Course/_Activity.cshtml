@@ -1,6 +1,6 @@
 ﻿@model MOAS_LMS.Models.ActivityModel
 
-@{ 
+@{
     var aid = "activity" + Model.Id;
     var canEdit = User.IsInRole("Admin");
 }
@@ -34,23 +34,56 @@
         @if (Model.ActivityType.AllowUploads) {
             <br />
             <b>HandIns</b>
-            <ul>
-                @if (User.IsInRole("Admin")) {
-                    foreach (var doc in Model.Documents.Where(d => d.IsHandIn)) {
-                        <li>@doc.Uploader.FullName: <a href="/Document/Get/@doc.Id">@doc.FileName</a> <a href="/Document/Feedback/@doc.Id">[Feedback]</a></li>
+            <table>
+                <tr>
+                    <th>User</th>
+                    <th>File</th>
+                    <th>Date</th>
+                    <th>Feedback</th>
+                </tr>
+                @{
+                    string prev = null;
+                    var documents = Model.Documents.OrderBy(d => d.Uploader?.FullName).Where(d => d.IsHandIn);
+                    if (!canEdit) {
+                        documents = documents.Where(d => d.Uploader.Email == User.Identity.Name);
                     }
                 }
-                else {
-                    foreach (var doc in Model.Documents.Where(d => d.IsHandIn && d.Uploader.Email == User.Identity.Name)) {
-                        <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (!string.IsNullOrWhiteSpace(doc.Feedback)) {<a href="/Document/Feedback/@doc.Id">[FeedBack]</a>}</li>
-                    }
+                @foreach (var doc in documents) {
+                    <tr>
+                        @if (prev != doc.Uploader.Id) {
+                            <td>@doc.Uploader.FullName</td>
+                        }
+                        else {
+                            <td></td>
+                        }
+                        <td>@Html.ActionLink(doc.FileName, "Get", "Document", new { id = doc.Id }, null)</td>
+                        <td>@doc.TimeStamp @if (doc.TimeStamp > Model.EndDate) {<span class="glyphicon glyphicon-time" style="color:red;"></span>}</td>
+                        <td>@doc.Feedback @if (canEdit) {<a href="/Document/feedback/@doc.Id"><span class="glyphicon glyphicon-edit"></span> Edit </a>}</td>
+                    </tr>
                 }
-            </ul>
+            </table>
             if (!User.IsInRole("Admin")) {
                 <form action="/Document/UploadHandIn/@Model.Id" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" value="" />
                     <input type="submit" value="Upload" />
                 </form>
+            }
+            else {
+                <p>
+                    <b>Not handed in in: </b>
+                    @{
+                        var students = Model.Module.Course.Students.Where(s => s.Documents.All(d => !d.IsHandIn || d.Activity != Model));
+                        if (students.Any()) {
+                            foreach (var student in students) {
+                                <span>@student.FullName, </span>
+                            }
+                        }
+                        else {
+                            <span>-None-</span>
+                        }
+                    }
+
+                </p>
             }
         }
     </div>
