@@ -286,6 +286,32 @@ namespace MOAS_LMS.Controllers
             return View(documentModel);
         }
 
+        // GET: DocumentModels/Edit/5
+        [Authorize(Roles = "Admin")]
+        public ActionResult Feedback(int? id) {
+            if (id == null) {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DocumentModel documentModel = db.Documents.Find(id);
+            if (documentModel == null) {
+                return HttpNotFound();
+            }
+            return View(documentModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public ActionResult Feedback([Bind(Include = "Id,Feedback")] DocumentModel documentModel) {
+            if (ModelState.IsValid) {
+                var doc = db.Documents.FirstOrDefault(d => d.Id == documentModel.Id);
+                doc.Feedback = documentModel.Feedback;
+                db.SaveChanges();
+                return RedirectToAction("Details", "Course", new { id = doc.Activity?.Module?.Course?.Id });
+            }
+            return View(documentModel);
+        }
+
         // GET: DocumentModels/Delete/5
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)

@@ -187,8 +187,11 @@ namespace MOAS_LMS.Migrations
                             FileName = filename,
                             Path = $"Activity/{activity.Id}/{filename}",
                             IsHandIn = true,
-                            TimeStamp = activity.EndDate.AddHours(-2 + i++ % 4),
+                            TimeStamp = activity.EndDate.AddDays(-2 + i++ % 4),
                         };
+                        if (i % 2 != 0) {
+                            doc.Feedback = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores, vel aut sequi vero sapiente quidem quae odit? Explicabo quam autem consequuntur quibusdam ipsam, necessitatibus porro ipsum sequi, nihil tempore repudiandae.";
+                        }
                         db.Documents.AddOrUpdate(d => d.Path, doc);
                     }
                 }
