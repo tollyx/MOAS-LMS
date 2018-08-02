@@ -48,7 +48,6 @@
                         <th>Feedback</th>
                     </tr>
                     @{
-                        string prev = null;
                         var documents = Model.Documents.OrderBy(d => d.Uploader?.FullName).Where(d => d.IsHandIn);
                         if (!canEdit) {
                             documents = documents.Where(d => d.Uploader.Email == User.Identity.Name);
@@ -56,12 +55,7 @@
                     }
                     @foreach (var doc in documents) {
                         <tr>
-                            @if (prev != doc.Uploader.Id) {
-                                <td>@doc.Uploader.FullName</td>
-                            }
-                            else {
-                                <td></td>
-                            }
+                            <td>@doc.Uploader.FullName</td>
                             <td>@Html.ActionLink(doc.FileName, "Get", "Document", new { id = doc.Id }, null)</td>
                             <td>@doc.TimeStamp @if (doc.TimeStamp > Model.EndDate) {<span class="glyphicon glyphicon-time" style="color:red;"></span>}</td>
                             <td>@doc.Feedback @if (canEdit) {<a href="/Document/feedback/@doc.Id"><span class="glyphicon glyphicon-edit"></span> Edit </a>}</td>
