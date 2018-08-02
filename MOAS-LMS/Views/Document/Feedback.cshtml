@@ -50,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Course Overview", "Index", "Course")
+    @Html.ActionLink("Back to Course Overview", "Details", "Course",  new { id = Model.Activity.Module.Course.Id }, null)
 </div>
 
 @section Scripts {
