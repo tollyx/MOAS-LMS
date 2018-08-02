@@ -58,7 +58,7 @@
             @if (canEdit) {
                 <p>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                    @Html.ActionLink("Back to List", "Index") |
+                    @Html.ActionLink("Return to Course Overview", "Index") |
                     @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) |
                     @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
                 </p>
