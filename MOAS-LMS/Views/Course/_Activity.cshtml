@@ -42,7 +42,7 @@
                 }
                 else {
                     foreach (var doc in Model.Documents.Where(d => d.IsHandIn && d.Uploader.Email == User.Identity.Name)) {
-                        <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (!string.IsNullOrWhiteSpace(doc.Feedback)) {<a href="/Document/Details/@doc.Id">[FeedBack]</a>}</li>
+                        <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (!string.IsNullOrWhiteSpace(doc.Feedback)) {<a href="/Document/Feedback/@doc.Id">[FeedBack]</a>}</li>
                     }
                 }
             </ul>
