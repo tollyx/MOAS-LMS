@@ -1,39 +1,51 @@
 ﻿@model MOAS_LMS.Models.ModuleModel
 
-@{ 
+@{
     var canEdit = User.IsInRole("Admin");
+    var aca = "accordion" + Model.Id;
+    var head = "head" + Model.Id;
+    var coll = "coll" + Model.Id;
 }
 
-<div class="module">
-    <button class="collapsible">@Model.Name</button>
-    <div class="content">
-        @if (Model.StartDate.Month != Model.EndDate.Month) {
-            <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("MMMM dd, yyyy")</b>
-        }
-        else {
-            <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("dd, yyyy")</b>
-        }
-        <p>@Model.Description</p>
-        <ul>
-            @foreach (var doc in Model.Documents) {
-                <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="@head">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@coll" aria-expanded="false" aria-controls="@coll">
+                @Model.Name
+            </a>
+        </h4>
+    </div>
+    <div id="@coll" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@head">
+        <div class="panel-body">
+            @if (Model.StartDate.Month != Model.EndDate.Month) {
+                <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("MMMM dd, yyyy")</b>
             }
-        </ul>
-        @if (canEdit) {
-            <span>
-                @Html.ActionLink("Edit", "Edit", "Module", new { id = Model.Id }, null) |
-                @Html.ActionLink("Delete", "Delete", "Module", new { id = Model.Id }, null) |
-                @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
-            </span>
-            <form action="/Document/UploadToModule/@Model.Id" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" value="" />
-                <input type="submit" value="Upload" />
-            </form>
-        }
-        <div>
-            @foreach (var activity in Model.Activities.OrderBy(a => a.StartDate)) {
-                @Html.Partial("_Activity", activity)
+            else {
+                <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("dd, yyyy")</b>
             }
+            <p>@Model.Description</p>
+            <ul>
+                @foreach (var doc in Model.Documents) {
+                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+                }
+            </ul>
+            @if (canEdit) {
+                <span>
+                    @Html.ActionLink("Edit", "Edit", "Module", new { id = Model.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Module", new { id = Model.Id }, null) |
+                    @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
+                </span>
+                <form action="/Document/UploadToModule/@Model.Id" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" value="" />
+                    <input type="submit" value="Upload" />
+                </form>
+            }
+            <div class="panel-group" id="@aca" role="tablist" aria-multiselectable="true">
+                @foreach (var activity in Model.Activities.OrderBy(a => a.StartDate)) {
+                    @Html.Partial("_Activity", activity)
+                }
+            </div>
         </div>
     </div>
 </div>
