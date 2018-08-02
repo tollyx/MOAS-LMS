@@ -1,7 +1,8 @@
 ﻿@model MOAS_LMS.Models.DocumentModel
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Feedback";
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <h2>Feedback</h2>
@@ -22,19 +23,29 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <textarea class="form-control" name="Feedback" id="Feedback">@Model.Feedback</textarea>
-                @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
+        @if (isAdmin) {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <textarea class="form-control" name="Feedback" id="Feedback">@Model.Feedback</textarea>
+                    @Html.ValidationMessageFor(model => model.Feedback, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
-        </div>
+        }
+        else {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <textarea class="form-control" name="Feedback" id="Feedback" disabled>@Model.Feedback</textarea>
+                </div>
+            </div>
+        }
     </div>
 }
 
