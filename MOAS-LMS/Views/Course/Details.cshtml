@@ -44,7 +44,7 @@
             </p>
             <ul>
                 @foreach (var doc in Model.Documents) {
-                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) { @Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null) } </li>
+                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
                 }
             </ul>
             <p>
@@ -70,7 +70,7 @@
                     <input type="submit" value="Upload" />
                 </form>
             }
-            <div>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
                     @Html.Partial("_Module", module)
                 }
@@ -88,8 +88,8 @@
                                 <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
                             </h4>
                             @if (!canEdit) {
-                                 if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                                 if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                                if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                                if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
                             }
                             <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
                             <hr />

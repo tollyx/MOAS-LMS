@@ -2,89 +2,87 @@
 
 @{
     var aid = "activity" + Model.Id;
+    var hid = "heading" + Model.Id;
     var canEdit = User.IsInRole("Admin");
+    var aca = "accordion" + Model.Module.Id;
 }
 
-<div class="activity" id="@aid">
-    <button class="collapsible">@Model.Name</button>
-    <div class="content">
-        @if (Model.StartDate.Day != Model.EndDate.Day) {
-            <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("ddd dd, HH:mm")</b>
-        }
-        else {
-            <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("HH:mm")</b>
-        }
-        <p>@Model.ActivityType.Name</p>
-        <p>@Model.Description</p>
-        <ul>
-            @foreach (var doc in Model.Documents.Where(d => !d.IsHandIn)) {
-                <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="@hid">
+        <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#@aca" href="#@aid" aria-expanded="false" aria-controls="@aid">
+                @Model.Name
+            </a>
+        </h4>
+    </div>
+    <div id="@aid" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@hid">
+        <div class="panel-body">
+            @if (Model.StartDate.Day != Model.EndDate.Day) {
+                <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("ddd dd, HH:mm")</b>
             }
-        </ul>
-        @if (canEdit) {
-            <span>
-                @Html.ActionLink("Edit", "Edit", "Activity", new { id = Model.Id }, null) |
-                @Html.ActionLink("Delete", "Delete", "Activity", new { id = Model.Id }, null)
-            </span>
-            <form action="/Document/UploadToActivity/@Model.Id" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" value="" />
-                <input type="submit" value="Upload" />
-            </form>
-        }
-        @if (Model.ActivityType.AllowUploads) {
-            <br />
-            <b>HandIns</b>
-            <table>
-                <tr>
-                    <th>User</th>
-                    <th>File</th>
-                    <th>Date</th>
-                    <th>Feedback</th>
-                </tr>
-                @{
-                    string prev = null;
-                    var documents = Model.Documents.OrderBy(d => d.Uploader?.FullName).Where(d => d.IsHandIn);
-                    if (!canEdit) {
-                        documents = documents.Where(d => d.Uploader.Email == User.Identity.Name);
-                    }
-                }
-                @foreach (var doc in documents) {
-                    <tr>
-                        @if (prev != doc.Uploader.Id) {
-                            <td>@doc.Uploader.FullName</td>
-                        }
-                        else {
-                            <td></td>
-                        }
-                        <td>@Html.ActionLink(doc.FileName, "Get", "Document", new { id = doc.Id }, null)</td>
-                        <td>@doc.TimeStamp @if (doc.TimeStamp > Model.EndDate) {<span class="glyphicon glyphicon-time" style="color:red;"></span>}</td>
-                        <td>@doc.Feedback @if (canEdit) {<a href="/Document/feedback/@doc.Id"><span class="glyphicon glyphicon-edit"></span> Edit </a>}</td>
-                    </tr>
-                }
-            </table>
-            if (!User.IsInRole("Admin")) {
-                <form action="/Document/UploadHandIn/@Model.Id" method="post" enctype="multipart/form-data">
+            else {
+                <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("HH:mm")</b>
+            }
+            <p>@Model.ActivityType.Name</p>
+            <p>@Model.Description</p>
+            @if (canEdit) {
+                <span>
+                    @Html.ActionLink("Edit", "Edit", "Activity", new { id = Model.Id }, null) |
+                    @Html.ActionLink("Delete", "Delete", "Activity", new { id = Model.Id }, null)
+                </span>
+                <form action="/Document/UploadToActivity/@Model.Id" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" value="" />
                     <input type="submit" value="Upload" />
                 </form>
             }
-            else {
-                <p>
-                    <b>Not handed in in: </b>
+            @if (Model.ActivityType.AllowUploads) {
+                <br />
+                <b>HandIns</b>
+                <table>
+                    <tr>
+                        <th>User</th>
+                        <th>File</th>
+                        <th>Date</th>
+                        <th>Feedback</th>
+                    </tr>
                     @{
-                        var students = Model.Module.Course.Students.Where(s => s.Documents.All(d => !d.IsHandIn || d.Activity != Model));
-                        if (students.Any()) {
-                            foreach (var student in students) {
-                                <span>@student.FullName, </span>
-                            }
-                        }
-                        else {
-                            <span>-None-</span>
+                        string prev = null;
+                        var documents = Model.Documents.OrderBy(d => d.Uploader?.FullName).Where(d => d.IsHandIn);
+                        if (!canEdit) {
+                            documents = documents.Where(d => d.Uploader.Email == User.Identity.Name);
                         }
                     }
-
-                </p>
+                    @foreach (var doc in documents) {
+                        <tr>
+                            @if (prev != doc.Uploader.Id) {
+                                <td>@doc.Uploader.FullName</td>
+                            }
+                            else {
+                                <td></td>
+                            }
+                            <td>@Html.ActionLink(doc.FileName, "Get", "Document", new { id = doc.Id }, null)</td>
+                            <td>@doc.TimeStamp @if (doc.TimeStamp > Model.EndDate) {<span class="glyphicon glyphicon-time" style="color:red;"></span>}</td>
+                            <td>@doc.Feedback @if (canEdit) {<a href="/Document/feedback/@doc.Id"><span class="glyphicon glyphicon-edit"></span> Edit </a>}</td>
+                        </tr>
+                    }
+                </table>
+                if (!User.IsInRole("Admin")) {
+                    <form action="/Document/UploadHandIn/@Model.Id" method="post" enctype="multipart/form-data">
+                        <input type="file" name="file" value="" />
+                        <input type="submit" value="Upload" />
+                    </form>
+                }
+                else {
+                    var students = Model.Module.Course.Students.Where(s => s.Documents.All(d => !d.IsHandIn || d.Activity != Model));
+                    if (students.Any()) {
+                        <p>
+                            <b>Not handed in in: </b> @string.Join(", ", students.Select(s => s.FullName))
+                        </p>
+                    }
+                }
             }
-        }
+        </div>
     </div>
 </div>
