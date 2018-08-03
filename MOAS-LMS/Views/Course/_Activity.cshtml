@@ -5,6 +5,8 @@
     var canEdit = User.IsInRole("Admin");
 }
 
+<link href="~/Content/Site.css" rel="stylesheet" />
+
 <div class="activity" id="@aid">
     <button class="collapsible">@Model.Name</button>
     <div class="content">
@@ -26,9 +28,15 @@
                 @Html.ActionLink("Edit", "Edit", "Activity", new { id = Model.Id }, null) |
                 @Html.ActionLink("Delete", "Delete", "Activity", new { id = Model.Id }, null)
             </span>
+            <p></p>
             <form action="/Document/UploadToActivity/@Model.Id" method="post" enctype="multipart/form-data">
+                @*<input type="file" name="file" value="" />
+                <input type="submit" value="Upload" />*@
                 <input type="file" name="file" value="" />
-                <input type="submit" value="Upload" />
+                <div class="fileUpload btn btn-primary" >
+                    <span>Upload</span>
+                    <input type="submit" class="upload" />
+                </div>
             </form>
         }
         @if (Model.ActivityType.AllowUploads) {
