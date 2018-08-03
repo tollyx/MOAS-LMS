@@ -85,7 +85,7 @@
                     if (assignment.EndDate > DateTime.Now || !turnedIn) {
                         <div>
                             <h4>
-                                <a href="#@aid">@assignment.Name</a>
+                                <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
                             </h4>
                             @if (!canEdit) {
                                 if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
