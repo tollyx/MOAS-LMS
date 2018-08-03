@@ -24,6 +24,7 @@ namespace MOAS_LMS.Migrations
 
             var roleNames = new[] { "Admin", "User" };
 
+            Console.WriteLine("Seeding Roles...");
             foreach (var roleName in roleNames)
             {
 
@@ -41,6 +42,7 @@ namespace MOAS_LMS.Migrations
 
             var students = new[] { "hannah@elev.lms.se", "bert@elev.lms.se", "gustav@elev.lms.se" };
             var admins = new[] { "admin@lms.se", "admin2@lms.se", "bobross@lms.se" };
+            Console.WriteLine("Seeding admins...");
             foreach (var email in admins)
             {
                 if (db.Users.Any(u => u.UserName == email)) continue;
@@ -56,18 +58,19 @@ namespace MOAS_LMS.Migrations
             db.ActivityTypes.AddOrUpdate(
                 at => at.Name,
                 new ActivityType { Name = "E-Learning", AllowUploads = false },
-                new ActivityType { Name = "Föreläsning", AllowUploads = false },
-                new ActivityType { Name = "Inlämningsuppgift", AllowUploads = true }
+                new ActivityType { Name = "Seminar", AllowUploads = false },
+                new ActivityType { Name = "Assignment", AllowUploads = true }
                 );
             db.SaveChanges();
-
-            for (int i = 1; i < 10; i++)
+            Console.WriteLine("Seeding courses...");
+            var courseNames = new[] { "C#/.Net", "Java/Spring", "Web development", "Python/Django", "Javascript/Node" };
+            for (int i = 0; i < courseNames.Length; i++)
             {
                 db.Courses.AddOrUpdate(
                     c => c.Title,
                     new CourseModel
                     {
-                        Title = "Course" + i,
+                        Title = courseNames[i],
                         Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
                         StartDate = DateTime.Now,
                         EndDate = DateTime.Now.AddDays(13)
@@ -75,7 +78,7 @@ namespace MOAS_LMS.Migrations
                     );
             }
             db.SaveChanges();
-
+            Console.WriteLine("Seeding users...");
             var usercourse = db.Courses.First();
             foreach (var email in students) {
                 if (db.Users.Any(u => u.UserName == email)) continue;
@@ -88,13 +91,15 @@ namespace MOAS_LMS.Migrations
             }
 
             db.SaveChanges();
+            Console.WriteLine("Seeding modules...");
+            var moduleNames = new[] { "C#", ".Net", "HTML", "C++", "ASP/MVC", "Java", "Spring", "Javascript", "Rust", "Python", "Django", "Assembly", "React", "Angular" };
             const int moduleLength = 3;
             foreach (var course in db.Courses.ToList()) {
                 for (int j = 0; j < 4; j++) {
                     db.Modules.AddOrUpdate(
                         c => c.Name,
                         new ModuleModel {
-                            Name = $"Module{course.Id}-{j}",
+                            Name = moduleNames[(course.Id + j) % moduleNames.Length] + course.Id,
                             Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
                             StartDate = course.StartDate.AddDays(j * moduleLength),
                             EndDate = course.StartDate.AddDays((j + 1) * moduleLength),
@@ -108,6 +113,7 @@ namespace MOAS_LMS.Migrations
             int activityi = 0;
             const int activitylength = 1;
             var actTypes = db.ActivityTypes.ToList();
+            Console.WriteLine("Seeding activities...");
             foreach (var module in db.Modules.ToList())
             {
                 foreach (var act in actTypes)
@@ -129,9 +135,10 @@ namespace MOAS_LMS.Migrations
             }
 
             db.SaveChanges();
-            var ext = new[] { "exe", "zip", "rar", "7z", "docx", "pdf", "tar.gz", "md", "txt", "ppx", "png" };
-            var teachnames = new[] { "Instructions", "Seminar", "Links", "Virus", "Readme" };
+            var ext = new[] { "exe", "zip", "rar", "7z", "docx", "pdf", "tar.gz", "md", "txt", "ppx", "png", "bmp", "gif", "html", "js", "cs", "java", "jar", "py", "rs" };
+            var teachnames = new[] { "Instructions", "Seminar", "Links", "Virus", "Readme", "Assignment", "Todo", "Zenbu" };
             var teachers = db.Users.Where(u => admins.Contains(u.Email)).ToList();
+            Console.WriteLine("Seeding course docs....");
             foreach (var course in db.Courses.ToList()) {
                 if (course.Id % 2 == 0) {
                     var filename = $"{teachnames[course.Id % teachnames.Length]}.{ext[course.Id % ext.Length]}";
@@ -139,7 +146,7 @@ namespace MOAS_LMS.Migrations
                         Uploader = teachers[course.Id % teachers.Count],
                         Course = course,
                         FileName = filename,
-                        Path = $"Course/{course.Id}/{filename}",
+                        Path = $"Fake/Course/{course.Id}/{filename}",
                         IsHandIn = false,
                         TimeStamp = course.StartDate.AddDays(-4),
                     };
@@ -148,6 +155,7 @@ namespace MOAS_LMS.Migrations
             }
 
             db.SaveChanges();
+            Console.WriteLine("Seeding module docs...");
             foreach (var module in db.Modules.ToList()) {
                 if (module.Id % 2 == 0) {
                     var filename = $"{teachnames[module.Id % teachnames.Length]}.{ext[module.Id % ext.Length]}";
@@ -164,6 +172,7 @@ namespace MOAS_LMS.Migrations
             }
 
             db.SaveChanges();
+            Console.WriteLine("Seeding activity docs/hand-ins...");
             foreach (var activity in db.Activities.ToList()) {
                 if (activity.Id % 2 == 0) {
                     var filename = $"{teachnames[activity.Id % teachnames.Length]}.{ext[activity.Id % ext.Length]}";
@@ -171,7 +180,7 @@ namespace MOAS_LMS.Migrations
                         Uploader = teachers[activity.Id % teachers.Count],
                         Activity = activity,
                         FileName = filename,
-                        Path = $"Activity/{activity.Id}/{filename}",
+                        Path = $"Fake/Activity/{activity.Id}/{filename}",
                         IsHandIn = false,
                         TimeStamp = activity.StartDate.AddDays(-4),
                     };
@@ -179,13 +188,13 @@ namespace MOAS_LMS.Migrations
                 }
                 if (activity.ActivityType.AllowUploads) {
                     int i = activity.Id;
-                    foreach (var student in activity.Module.Course.Students?.ToList()) {
-                        var filename = $"Handin.{ext[i % ext.Length]}";
+                    foreach (var student in activity.Module.Course.Students.ToList()) {
+                        var filename = $"{activity.Name}-Handin.{ext[i % ext.Length]}";
                         var doc = new DocumentModel {
                             Uploader = student,
                             Activity = activity,
                             FileName = filename,
-                            Path = $"Activity/{activity.Id}/{filename}",
+                            Path = $"Fake/Activity/{activity.Id}/{filename}",
                             IsHandIn = true,
                             TimeStamp = activity.EndDate.AddDays(-2 + i++ % 4),
                         };
