@@ -36,6 +36,7 @@
                     @Html.ActionLink("Delete", "Delete", "Module", new { id = Model.Id }, null) |
                     @Html.ActionLink("Create a new Activity", "Create", "Activity", new { id = Model.Id }, null)
                 </span>
+                <p></p>
                 <form action="/Document/UploadToModule/@Model.Id" method="post" enctype="multipart/form-data">
                     @*<input type="file" name="file" value="" />
                     <input type="submit" value="Upload" />*@
