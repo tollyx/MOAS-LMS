@@ -78,7 +78,7 @@
         </div>
         <div class="col-md-2">
             @{
-                var assignments = activities.Where(a => a.ActivityType.Name == "Inlämningsuppgift" && a.ActivityType.AllowUploads == true);
+                var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
                 foreach (var assignment in assignments) {
                     var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
                     var aid = "activity" + assignment.Id;
