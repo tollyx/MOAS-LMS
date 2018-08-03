@@ -324,13 +324,14 @@
     <Content Include="Views\Account\Teacher.cshtml" />
     <Content Include="Views\Document\Create.cshtml" />
     <Content Include="Views\Document\Delete.cshtml" />
-    <Content Include="Views\Document\Details.cshtml" />
     <Content Include="Views\Document\Edit.cshtml" />
     <Content Include="Views\Document\Index.cshtml" />
     <Content Include="Views\Document\Feedback.cshtml" />
     <Content Include="Views\Account\DeleteTeacher.cshtml" />
     <Content Include="Views\Account\EditTeacher.cshtml" />
     <Content Include="Views\Account\DetailsTeacher.cshtml" />
+    <Content Include="Views\Course\_Module.cshtml" />
+    <Content Include="Views\Course\_Activity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -287,7 +287,7 @@ namespace MOAS_LMS.Controllers
         }
 
         // GET: DocumentModels/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public ActionResult Feedback(int? id) {
             if (id == null) {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
