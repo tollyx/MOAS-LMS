@@ -68,14 +68,15 @@ textarea {
 }
 
 .fileUpload {
-    position: relative; right: 10px;
+    position: relative;
+    right: 10px;
     overflow: hidden;
     margin: 10px;
     display: inline-block;
 }
 
 .fileUpload input.upload {
-    position: absolute;
+    position: relative;
     top: 0;
     right: 0;
     margin: 0;

@@ -5,8 +5,6 @@
     var canEdit = User.IsInRole("Admin");
 }
 
-<link href="~/Content/Site.css" rel="stylesheet" />
-
 <div class="container">
     <div class="row">
         <div class="col-md-2">
@@ -75,13 +73,8 @@
                     @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
                 </p>
                 <form action="/Document/UploadToCourse/@Model.Id" method="post" enctype="multipart/form-data">
-                    @*<input type="file" name="file" value="" />
-                        <input type="submit" value="Upload" />*@
                     <input type="file" name="file" value="" />
-                    <div class="fileUpload btn btn-primary">
-                        <span>Upload</span>
-                        <input type="submit" class="upload" />
-                    </div>
+                    <input class="fileUpload upload btn btn-primary" style="display: inline-block" value="Upload" type="submit">
                 </form>
             }
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">

@@ -34,13 +34,8 @@
                 </span>
                 <p></p>
                 <form action="/Document/UploadToActivity/@Model.Id" method="post" enctype="multipart/form-data">
-                    @*<input type="file" name="file" value="" />
-                    <input type="submit" value="Upload" />*@
                     <input type="file" name="file" value="" />
-                    <div class="fileUpload btn btn-primary" >
-                        <span>Upload</span>
-                        <input type="submit" class="upload" />
-                    </div>
+                    <input class="fileUpload upload btn btn-primary" value="Upload" type="submit">
                 </form>
             }
             @if (Model.ActivityType.AllowUploads) {
@@ -71,7 +66,7 @@
                 if (!User.IsInRole("Admin")) {
                     <form action="/Document/UploadHandIn/@Model.Id" method="post" enctype="multipart/form-data">
                         <input type="file" name="file" value="" />
-                        <input type="submit" value="Upload" />
+                        <input class="fileUpload upload btn btn-primary" style="display: inline-block" value="Upload" type="submit">
                     </form>
                 }
                 else {
