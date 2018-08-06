@@ -5,35 +5,15 @@
     var canEdit = User.IsInRole("Admin");
 }
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-2">
-            @{
-                DateTime tempTime = DateTime.Now.AddDays(-1);
-                var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
-                foreach (var activity in activities.SkipWhile(a => a.EndDate < DateTime.Now).Take(8)) {
-                    var aid = "activity" + activity.Id;
-                    <div>
-                        @if (activity.EndDate.Date != tempTime.Date) {
-                            <h4>@activity.StartDate.ToString("ddd dd, MMMM")</h4>
-                        }
-                        <a href="#@aid" onclick="expandActivity(@activity.Id)">
-                            <b>@activity.Name</b>
-                        </a>
-                        @if (activity.StartDate.Day != activity.EndDate.Day) {
-                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</p>
-                        }
-                        else {
-                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("HH:mm")</p>
-                        }
-                        <hr />
-                    </div>
-                    tempTime = activity.StartDate;
-                }
-            }
-        </div>
-        <div class="col-md-8">
-            <header>
+
+
+
+
+
+        <section class="col-sm-9 col-md-8 col-sm-push-3 col-md-push-2">
+            <header class="container-fluid">
                 <h2>
                     @Html.DisplayFor(model => model.Title)
                 </h2>
@@ -43,22 +23,29 @@
                 @Html.DisplayFor(model => model.Description)
             </p>
             <ul>
-                @foreach (var doc in Model.Documents) {
-                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+                @foreach (var doc in Model.Documents)
+                {
+                    <li>
+                        <a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin"))
+                        {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)}
+                    </li>
                 }
             </ul>
             <p>
                 <hr />
                 <b>Enrolled students:</b><br />
-                @if (Model.Students.Count > 0) {
+                @if (Model.Students.Count > 0)
+                {
                     <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
                 }
-                else {
+                else
+                {
                     <span>There are no students assigned to this course.</span>
                 }
                 <hr />
             </p>
-            @if (canEdit) {
+            @if (canEdit)
+            {
                 <p>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                     @Html.ActionLink("Return to Course Overview", "Index") |
@@ -71,25 +58,60 @@
                 </form>
             }
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
+                @foreach (var module in Model.Modules.OrderBy(m => m.StartDate))
+                {
                     @Html.Partial("_Module", module)
                 }
             </div>
-        </div>
-        <div class="col-md-2">
+        </section>
+        <aside class="col-sm-3 col-md-2 col-sm-pull-9 col-md-pull-8">
+            @{
+                DateTime tempTime = DateTime.Now.AddDays(-1);
+                var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
+                foreach (var activity in activities.SkipWhile(a => a.EndDate < DateTime.Now).Take(8))
+                {
+                    var aid = "activity" + activity.Id;
+                    <div>
+                        @if (activity.EndDate.Date != tempTime.Date)
+                        {
+                            <h4>@activity.StartDate.ToString("ddd dd, MMMM")</h4>
+                        }
+                        <a href="#@aid" onclick="expandActivity(@activity.Id)">
+                            <b>@activity.Name</b>
+                        </a>
+                        @if (activity.StartDate.Day != activity.EndDate.Day)
+                        {
+                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</p>
+                        }
+                        else
+                        {
+                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("HH:mm")</p>
+                        }
+                        <hr />
+                    </div>
+                    tempTime = activity.StartDate;
+                }
+            }
+        </aside>
+        <aside class="col-xs-12 col-md-2 hidden-md">
             @{
                 var assignments = activities.Where(a => a.ActivityType.Name == "Inlämningsuppgift" && a.ActivityType.AllowUploads == true);
-                foreach (var assignment in assignments) {
+                foreach (var assignment in assignments)
+                {
                     var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
                     var aid = "activity" + assignment.Id;
-                    if (assignment.EndDate > DateTime.Now || !turnedIn) {
+                    if (assignment.EndDate > DateTime.Now || !turnedIn)
+                    {
                         <div>
                             <h4>
                                 <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
                             </h4>
-                            @if (!canEdit) {
-                                if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                                if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                            @if (!canEdit)
+                            {
+                                if (assignment.EndDate < DateTime.Now)
+                                {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                                if (turnedIn)
+                                {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
                             }
                             <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
                             <hr />
@@ -97,8 +119,9 @@
                     }
                 }
             }
-        </div>
+        </aside>
     </div>
 </div>
+
 
 <script src="~/Scripts/collapsemenu.js"></script>
