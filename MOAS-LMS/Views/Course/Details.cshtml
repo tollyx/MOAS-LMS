@@ -95,9 +95,8 @@
         </aside>
         <aside class="col-xs-12 col-md-2 hidden-md">
             @{
-                var assignments = activities.Where(a => a.ActivityType.Name == "Inlämningsuppgift" && a.ActivityType.AllowUploads == true);
-                foreach (var assignment in assignments)
-                {
+                var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
+                foreach (var assignment in assignments) {
                     var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
                     var aid = "activity" + assignment.Id;
                     if (assignment.EndDate > DateTime.Now || !turnedIn)
