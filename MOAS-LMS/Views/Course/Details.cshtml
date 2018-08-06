@@ -3,36 +3,12 @@
 @{
     ViewBag.Title = "Overview";
     var canEdit = User.IsInRole("Admin");
+    var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
 }
 
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            @{
-                DateTime tempTime = DateTime.Now.AddDays(-1);
-                var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
-                foreach (var activity in activities.SkipWhile(a => a.EndDate < DateTime.Now).Take(8)) {
-                    var aid = "activity" + activity.Id;
-                    <div>
-                        @if (activity.EndDate.Date != tempTime.Date) {
-                            <h4>@activity.StartDate.ToString("ddd dd, MMMM")</h4>
-                        }
-                        <a href="#@aid" onclick="expandActivity(@activity.Id)">
-                            <b>@activity.Name</b>
-                        </a>
-                        @if (activity.StartDate.Day != activity.EndDate.Day) {
-                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("ddd dd, HH:mm")</p>
-                        }
-                        else {
-                            <p>@activity.StartDate.ToString("HH:mm") - @activity.EndDate.ToString("HH:mm")</p>
-                        }
-                        <hr />
-                    </div>
-                    tempTime = activity.StartDate;
-                }
-            }
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <header>
                 <h2>
                     @Html.DisplayFor(model => model.Title)
