@@ -13,18 +13,18 @@
     <div class="panel-heading" role="tab" id="@hid">
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#@aca" href="#@aid" aria-expanded="false" aria-controls="@aid">
-                @Model.Name
+                <b>@Model.Name</b>
+                @if (Model.StartDate.Day != Model.EndDate.Day) {
+                    <span>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("ddd dd, HH:mm")</span>
+                }
+                else {
+                    <span>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("HH:mm")</span>
+                }
             </a>
         </h4>
     </div>
     <div id="@aid" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@hid">
         <div class="panel-body">
-            @if (Model.StartDate.Day != Model.EndDate.Day) {
-                <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("ddd dd, HH:mm")</b>
-            }
-            else {
-                <b>@Model.StartDate.ToString("ddd dd, HH:mm") - @Model.EndDate.ToString("HH:mm")</b>
-            }
             <p>@Model.ActivityType.Name</p>
             <p>@Model.Description</p>
             @if (canEdit) {

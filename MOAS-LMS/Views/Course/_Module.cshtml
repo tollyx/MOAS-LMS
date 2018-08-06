@@ -12,18 +12,18 @@
     <div class="panel-heading" role="tab" id="@head">
         <h4 class="panel-title">
             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#@coll" aria-expanded="false" aria-controls="@coll">
-                @Model.Name
+                <b>@Model.Name</b>
+                @if (Model.StartDate.Month != Model.EndDate.Month) {
+                    <span>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("MMMM dd, yyyy")</span>
+                }
+                else {
+                    <span>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("dd, yyyy")</span>
+                }
             </a>
         </h4>
     </div>
     <div id="@coll" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@head">
         <div class="panel-body">
-            @if (Model.StartDate.Month != Model.EndDate.Month) {
-                <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("MMMM dd, yyyy")</b>
-            }
-            else {
-                <b>@Model.StartDate.ToString("MMMM dd") - @Model.EndDate.ToString("dd, yyyy")</b>
-            }
             <p>@Model.Description</p>
             <ul>
                 @foreach (var doc in Model.Documents) {
