@@ -6,77 +6,72 @@
     var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
 }
 
-<div class="container">
-    <div class="row">
-            <header>
-                <h2>
-                    @Html.DisplayFor(model => model.Title)
-                </h2>
-                <b>@Html.DisplayFor(model => model.StartDate) - @Html.DisplayFor(model => model.EndDate)</b>
-            </header>
-            <p>
-                @Html.DisplayFor(model => model.Description)
-            </p>
-            <ul>
-                @foreach (var doc in Model.Documents) {
-                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
-                }
-            </ul>
-            <p>
-                <hr />
-                <b>Enrolled students:</b><br />
-                @if (Model.Students.Count > 0)
-                {
-                    <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
-                }
-                else
-                {
-                    <span>There are no students assigned to this course.</span>
-                }
-                <hr />
-            </p>
-            @if (canEdit)
-            {
-                <p>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                    @Html.ActionLink("Return to Course Overview", "Index") |
-                    @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) |
-                    @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
-                </p>
-                <form action="/Document/UploadToCourse/@Model.Id" method="post" enctype="multipart/form-data">
-                    <input type="file" name="file" value="" />
-                    <input class="fileUpload upload btn btn-primary" value="Upload" type="submit">
-                </form>
+<div class="row">
+    <div class="col-md-10">
+        <header>
+            <h2>
+                @Html.DisplayFor(model => model.Title)
+            </h2>
+            <b>@Html.DisplayFor(model => model.StartDate) - @Html.DisplayFor(model => model.EndDate)</b>
+        </header>
+        <p>
+            @Html.DisplayFor(model => model.Description)
+        </p>
+        <ul>
+            @foreach (var doc in Model.Documents) {
+                <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
             }
-            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
-                    @Html.Partial("_Module", module)
-                }
-            </div>
-        </div>
-        <div class="col-md-2">
-            @{
-                var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
-                foreach (var assignment in assignments) {
-                    var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
-                    var aid = "activity" + assignment.Id;
-                    if (assignment.EndDate > DateTime.Now || !turnedIn)
-                    {
-                        <div>
-                            <h4>
-                                <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
-                            </h4>
-                            @if (!canEdit) {
-                                if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                                if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
-                            }
-                            <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
-                            <hr />
-                        </div>
-                    }
-                }
+        </ul>
+        <p>
+            <hr />
+            <b>Enrolled students:</b><br />
+            @if (Model.Students.Count > 0) {
+                <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
+            }
+            else {
+                <span>There are no students assigned to this course.</span>
+            }
+            <hr />
+        </p>
+        @if (canEdit) {
+            <p>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Return to Course Overview", "Index") |
+                @Html.ActionLink("Register a new Student", "RegisterStudent", "Account", new { id = Model.Id }, null) |
+                @Html.ActionLink("Create a new Module", "Create", "Module", new { id = Model.Id }, null)
+            </p>
+            <form action="/Document/UploadToCourse/@Model.Id" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" value="" />
+                <input class="fileUpload upload btn btn-primary" value="Upload" type="submit">
+            </form>
+        }
+        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            @foreach (var module in Model.Modules.OrderBy(m => m.StartDate)) {
+                @Html.Partial("_Module", module)
             }
         </div>
+    </div>
+    <div class="col-md-2">
+        @{
+            var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
+            foreach (var assignment in assignments) {
+                var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
+                var aid = "activity" + assignment.Id;
+                if (assignment.EndDate > DateTime.Now || !turnedIn) {
+                    <div>
+                        <h4>
+                            <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
+                        </h4>
+                        @if (!canEdit) {
+                            if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                            if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+                        }
+                        <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
+                        <hr />
+                    </div>
+                }
+            }
+        }
     </div>
 </div>
 

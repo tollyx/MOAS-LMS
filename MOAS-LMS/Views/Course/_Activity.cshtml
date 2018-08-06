@@ -27,6 +27,11 @@
         <div class="panel-body">
             <p>@Model.ActivityType.Name</p>
             <p>@Model.Description</p>
+            <ul>
+                @foreach (var doc in Model.Documents) {
+                    <li><a href="/Document/Get/@doc.Id">@doc.FileName</a> @if (User.IsInRole("Admin")) {@Html.ActionLink("[X]", "Delete", "Document", new { id = doc.Id }, null)} </li>
+                }
+            </ul>
             @if (canEdit) {
                 <span>
                     @Html.ActionLink("Edit", "Edit", "Activity", new { id = Model.Id }, null) |
