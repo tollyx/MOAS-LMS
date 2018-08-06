@@ -8,7 +8,6 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-10">
             <header>
                 <h2>
                     @Html.DisplayFor(model => model.Title)
@@ -26,15 +25,18 @@
             <p>
                 <hr />
                 <b>Enrolled students:</b><br />
-                @if (Model.Students.Count > 0) {
+                @if (Model.Students.Count > 0)
+                {
                     <span>@string.Join(", ", Model.Students.Select(s => s.FullName))</span>
                 }
-                else {
+                else
+                {
                     <span>There are no students assigned to this course.</span>
                 }
                 <hr />
             </p>
-            @if (canEdit) {
+            @if (canEdit)
+            {
                 <p>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
                     @Html.ActionLink("Return to Course Overview", "Index") |
@@ -43,7 +45,7 @@
                 </p>
                 <form action="/Document/UploadToCourse/@Model.Id" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" value="" />
-                    <input type="submit" value="Upload" />
+                    <input class="fileUpload upload btn btn-primary" value="Upload" type="submit">
                 </form>
             }
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -58,7 +60,8 @@
                 foreach (var assignment in assignments) {
                     var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
                     var aid = "activity" + assignment.Id;
-                    if (assignment.EndDate > DateTime.Now || !turnedIn) {
+                    if (assignment.EndDate > DateTime.Now || !turnedIn)
+                    {
                         <div>
                             <h4>
                                 <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
