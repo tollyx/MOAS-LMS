@@ -50,7 +50,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Course Overview", "Details", "Course",  new { id = Model.Activity.Module.Course.Id }, null)
+    @Html.ActionLink("Back to Course", null, null, null, new { href = Request.UrlReferrer })
 </div>
 
 @section Scripts {
