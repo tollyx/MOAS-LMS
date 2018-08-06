@@ -152,9 +152,30 @@ namespace MOAS_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             CourseModel courseModel = db.Courses.Find(id);
-            db.Courses.Remove(courseModel);
+
+            DeleteCourse(db, courseModel);
+
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        static void DeleteCourse(ApplicationDbContext db, CourseModel course) {
+            var mods = course.Modules.ToList();
+            foreach (var mod in mods) {
+                ModuleController.DeleteModule(db, mod);
+            }
+
+            var docs = course.Documents.ToList();
+            foreach (var doc in docs) {
+                DocumentController.DeleteDocument(db, doc);
+            }
+
+            var students = course.Students.ToList();
+            foreach (var stud in students) {
+                db.Users.Remove(stud);
+            }
+
+            db.Courses.Remove(course);
         }
 
         protected override void Dispose(bool disposing)
