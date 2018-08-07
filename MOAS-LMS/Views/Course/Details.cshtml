@@ -76,10 +76,12 @@
     </div>
 </div>
 
-<script src="~/Scripts/collapsemenu.js"></script>
-<script type="text/javascript">
-    function expandOnLoad() {
-        expandActivity(@today);
-    }
-    window.onload = expandOnLoad;
-</script>
+@section scripts {
+    <script src="~/Scripts/collapsemenu.js"></script>
+    <script type="text/javascript">
+        function expandOnLoad() {
+            expandActivity(@today);
+        }
+        window.onload = expandOnLoad;
+    </script>
+}
