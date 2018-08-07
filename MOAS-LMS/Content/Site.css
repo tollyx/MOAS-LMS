@@ -80,21 +80,3 @@ textarea {
     margin-bottom: 12px;
     border-radius: 5px;
 }
-
-.navbar-inverse {
-    background-color: rgb(216, 0, 0);
-}
-
-.navbar-inverse .navbar-nav > li > a {
-    color: white;
-    text-shadow: 1px 1px #000000;
-}
-
-.navbar-inverse .navbar-brand {
-    color: white;
-    text-shadow: 1px 1px #000000;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover {
-    background-color: firebrick;
-}
