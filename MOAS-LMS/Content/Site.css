@@ -46,27 +46,6 @@ textarea {
     color: green;
 }
 
-/*Collapsing menus*/
-.collapsible {
-    background-color: #fff;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-}
-
-.collapsible:hover {
-    background-color: #f1f1f1;
-}
-
-.content {
-    padding: 0 18px;
-    display: none;
-    overflow: hidden;
-}
-
 .fileUpload {
     position: relative;
     right: 10px;
@@ -100,4 +79,22 @@ textarea {
     border: 1px solid #ddd;
     margin-bottom: 12px;
     border-radius: 5px;
+}
+
+.navbar-inverse {
+    background-color: rgb(216, 0, 0);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white;
+    text-shadow: 1px 1px #000000;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+    text-shadow: 1px 1px #000000;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: firebrick;
 }
