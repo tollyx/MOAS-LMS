@@ -4,6 +4,7 @@
     ViewBag.Title = "Overview";
     var canEdit = User.IsInRole("Admin");
     var activities = Model.Modules.SelectMany(m => m.Activities).OrderBy(a => a.StartDate);
+    int? today = activities.FirstOrDefault(a => a.StartDate.Date == DateTime.Now.Date)?.Id;
 }
 
 <div class="row">
@@ -77,4 +78,10 @@
 
 @section scripts {
     <script src="~/Scripts/collapsemenu.js"></script>
+    <script type="text/javascript">
+        function expandOnLoad() {
+            expandActivity(@today);
+        }
+        window.onload = expandOnLoad;
+    </script>
 }
