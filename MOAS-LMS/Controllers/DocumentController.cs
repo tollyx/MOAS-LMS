@@ -115,7 +115,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id = uploader.Course.Id });
+            return RedirectToAction("Overview", "Course", new { id = uploader.Course.Id });
         }
 
         [HttpPost]
@@ -152,7 +152,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id });
+            return RedirectToAction("Overview", "Course", new { id });
         }
 
         [Authorize(Roles = "Admin")]
@@ -188,7 +188,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id = module?.Course?.Id });
+            return RedirectToAction("Overview", "Course", new { id = module?.Course?.Id });
         }
 
         [Authorize(Roles = "Admin")]
@@ -224,7 +224,7 @@ namespace MOAS_LMS.Controllers
                 db.Documents.Add(doc);
             }
             db.SaveChanges();
-            return RedirectToAction("Details", "Course", new { id = activity?.Module?.Course?.Id });
+            return RedirectToAction("Overview", "Course", new { id = activity?.Module?.Course?.Id });
         }
 
         public ActionResult Get(int? id) {
@@ -307,7 +307,7 @@ namespace MOAS_LMS.Controllers
                 var doc = db.Documents.FirstOrDefault(d => d.Id == documentModel.Id);
                 doc.Feedback = documentModel.Feedback;
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id = doc.Activity?.Module?.Course?.Id });
+                return RedirectToAction("Overview", "Course", new { id = doc.Activity?.Module?.Course?.Id });
             }
             return View(documentModel);
         }
@@ -345,13 +345,13 @@ namespace MOAS_LMS.Controllers
             db.SaveChanges();
 
             if (cou != null) {
-                return RedirectToAction("Details", "Course", new { id = cou.Id });
+                return RedirectToAction("Overview", "Course", new { id = cou.Id });
             }
             else if (mod?.Course != null) {
-                return RedirectToAction("Details", "Course", new { id = mod.Course.Id });
+                return RedirectToAction("Overview", "Course", new { id = mod.Course.Id });
             }
             else if (act?.Module?.Course != null) {
-                return RedirectToAction("Details", "Course", new { id = act.Module.Course.Id });
+                return RedirectToAction("Overview", "Course", new { id = act.Module.Course.Id });
             }
             return RedirectToAction("Index");
         }
