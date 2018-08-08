@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MOAS_LMS.Models;
 using MOAS_LMS.Models.View;
 
@@ -67,7 +68,7 @@ namespace MOAS_LMS.Controllers
 
                 db.Modules.Add(module);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id });
+                return RedirectToAction("Overview", "Course", new { id });
             }
 
             return View(moduleModel);
@@ -104,7 +105,7 @@ namespace MOAS_LMS.Controllers
                 module.EndDate = moduleModel.EndDate;
                 db.SaveChanges();
 
-                return RedirectToAction("Details", "Course", new { id = module.Course.Id });
+                return RedirectToAction("Overview", "Course", new { id = module.Course.Id });
             }
             return View(moduleModel);
         }
@@ -130,10 +131,12 @@ namespace MOAS_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ModuleModel moduleModel = db.Modules.Find(id);
-
+            int? courseId = moduleModel?.Course?.Id;
             DeleteModule(db, moduleModel);
 
             db.SaveChanges();
+            if (courseId != null) return RedirectToAction("Overview", "Course", new {id = courseId});
+
             return RedirectToAction("Index");
         }
 

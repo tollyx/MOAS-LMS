@@ -70,7 +70,7 @@ namespace MOAS_LMS.Controllers
                     
                 db.Activities.Add(activity);
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id = activity.Module.Course.Id });
+                return RedirectToAction("Overview", "Course", new { id = activity.Module.Course.Id });
             }
             ViewBag.CourseId = db.Modules.FirstOrDefault(m => m.Id == id)?.Course.Id;
             ViewBag.ActivityTypes = db.ActivityTypes.ToList();
@@ -110,7 +110,7 @@ namespace MOAS_LMS.Controllers
                 activity.EndDate = activityModel.EndDate;
                 activity.Description = activityModel.Description;
                 db.SaveChanges();
-                return RedirectToAction("Details", "Course", new { id = activity.Module.Course.Id });
+                return RedirectToAction("Overview", "Course", new { id = activity.Module.Course.Id });
             }
             return View(activityModel);
         }
@@ -138,10 +138,12 @@ namespace MOAS_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ActivityModel activityModel = db.Activities.Find(id);
-
+            int? activityId = activityModel?.Module?.Course.Id;
             DeleteActivity(db, activityModel);
 
             db.SaveChanges();
+            if (activityId != null) return RedirectToAction("Overview", "Course", new { id = activityId });
+
             return RedirectToAction("Index");
         }
 
