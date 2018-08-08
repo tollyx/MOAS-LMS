@@ -78,7 +78,7 @@
                     var students = Model.Module.Course.Students.Where(s => s.Documents.All(d => !d.IsHandIn || d.Activity != Model));
                     if (students.Any()) {
                         <p>
-                            <b>Not handed in in: </b> @string.Join(", ", students.Select(s => s.FullName))
+                            <b>Not handed in: </b> @string.Join(", ", students.Select(s => s.FullName))
                         </p>
                     }
                 }

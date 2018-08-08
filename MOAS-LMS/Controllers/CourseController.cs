@@ -33,7 +33,7 @@ namespace MOAS_LMS.Controllers
             }
             else if (currentUser.Course != null)
             {
-                return RedirectToAction("Details", new {id = currentUser.Course.Id});
+                return RedirectToAction("Overview", new {id = currentUser.Course.Id});
             }
             else
             {
@@ -41,9 +41,9 @@ namespace MOAS_LMS.Controllers
             }
         }
 
-        // GET: CourseModels/Details/5
+        // GET: CourseModels/Overview/5
         [Authorize]
-        public ActionResult Details(int? id)
+        public ActionResult Overview(int? id)
         {
             if (id == null)
             {
@@ -124,7 +124,7 @@ namespace MOAS_LMS.Controllers
             {
                 db.Entry(courseModel).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Details", new { id = courseModel.Id});
+                return RedirectToAction("Overview", new { id = courseModel.Id});
             }
             return View(courseModel);
         }
