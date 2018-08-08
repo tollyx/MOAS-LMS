@@ -4,7 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create module</h2>
 
 
 @using (Html.BeginForm())
@@ -12,6 +11,8 @@
     @Html.AntiForgeryToken()
 <div class="homeboyz">
     <div class="form-horizontal">
+        <h2>Create module</h2>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

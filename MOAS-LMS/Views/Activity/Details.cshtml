@@ -4,11 +4,13 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+
 
 <div>
     <h4>ActivityModel</h4>
-    <hr />
+
+    <h2>Details</h2>
+
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.ActivityType)
@@ -56,7 +58,8 @@
 
         <dd>
             <ul>
-                @foreach (var doc in Model.Documents) {
+                @foreach (var doc in Model.Documents)
+                {
                     <li><a href="/Document/Get/@doc.Id">@doc.FileName</a></li>
                 }
             </ul>

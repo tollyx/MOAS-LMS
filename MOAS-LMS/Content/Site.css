@@ -9,14 +9,27 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    /*background:*/
-    /*background-color: rgba(255, 0, 0, 0.3);*/
-    background-image: url('../images/lp.jpg');
+    background-color: #FFF;
+    /*background-image: url('../images/lp.jpg');*/
     font-family: 'Montserrat', sans-serif;
+    flex-direction: column;
+    /*padding-bottom: 75px;*/
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
 }
 
+.btn-primary {
+    color: #fff;
+    background-color: #CF000F;
+    border:none;
+}
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+        color: #fff;
+        background-color: #D91E18;
+        border: none;
+    }
 
 
 .inlamning-top div {
@@ -26,7 +39,7 @@ body {
 }
 
 aside {
-    background-color: #FFF;
+    background-color: #fff;
     float: right;
     margin-left: auto;
     margin-right: auto;
@@ -50,25 +63,35 @@ aside {
     flex: 1 0 auto;
 }
 
+/*.logmein {
+    background-image: url('../images/pexels-photo.jpg');
+    background-repeat: no-repeat;
+    box-shadow: 5px 10px #888888;
+    
+}*/
+
+
 .navbar img {
     height: 50%;
     width: 50%;
 }
 
 footer {
-    background-color: #CF000F;
+    background-color: #22313F;
     bottom: 0;
     left: 0;
     /*position: fixed;*/
-    text-align: end;
+    text-align: center;
+    padding: 1em;
     width: 100%;
     z-index: -1;
     color: #FFF;
     height: 75px;
     flex-shrink: 0;
+    margin-top: auto;
 }
 #loginForm {
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: rgba(255, 255, 255, 0);
     height: 400px;
     width: 400px;
     /*margin-top: 39px;
@@ -124,12 +147,12 @@ textarea {
 
 .navbar {
     margin-bottom: 0px;
-    padding: 30px 15px;
+    padding: 8px 15px;
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
 }
 .navbar-inverse {
-    background-color: #CF000F;
+    background-color: #22313F;
     border-color: transparent;
 }
 
@@ -172,6 +195,7 @@ h2 {
 
 h3 {
 color: #CF000F;
+font-size: 15px;
 }
 
 
@@ -222,7 +246,12 @@ a:hover {
     border-collapse: collapse;
     width: 100%;
     font-size: 14px;
+  
 }
+
+
+
+
 
 #myInput {
     width: 100%;
@@ -232,3 +261,5 @@ a:hover {
     margin-bottom: 12px;
     border-radius: 5px;
 }
+
+

@@ -11,7 +11,9 @@
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+<div class="form-horizontal">
+    <div class="homeboyz">
+
         @{
             var student = Model.Uploader?.FullName;
             var activityname = Model.Activity?.Name;
@@ -23,7 +25,8 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
-        @if (isAdmin) {
+        @if (isAdmin)
+        {
             <div class="form-group">
                 @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -38,7 +41,8 @@
                 </div>
             </div>
         }
-        else {
+        else
+        {
             <div class="form-group">
                 @Html.LabelFor(model => model.Feedback, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -47,12 +51,13 @@
             </div>
         }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to Course", null, null, null, new { href = Request.UrlReferrer })
 </div>
+    }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+    <div>
+        @Html.ActionLink("Back to Course", null, null, null, new { href = Request.UrlReferrer })
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
