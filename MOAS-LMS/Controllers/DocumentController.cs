@@ -339,14 +339,10 @@ namespace MOAS_LMS.Controllers
             var act = documentModel.Activity;
             var mod = documentModel.Module;
             var cou = documentModel.Course;
-            db.Documents.Remove(documentModel);
+
+            DeleteDocument(db, documentModel);
+
             db.SaveChanges();
-            try {
-                System.IO.File.Delete(path);
-            }
-            catch (Exception e) {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, $"Could not delete file: {e.ToString()}");
-            }
 
             if (cou != null) {
                 return RedirectToAction("Details", "Course", new { id = cou.Id });
@@ -358,6 +354,17 @@ namespace MOAS_LMS.Controllers
                 return RedirectToAction("Details", "Course", new { id = act.Module.Course.Id });
             }
             return RedirectToAction("Index");
+        }
+
+        public static void DeleteDocument(ApplicationDbContext db, DocumentModel doc) {
+            try {
+                System.IO.File.Delete(doc.Path);
+
+            }
+            catch (Exception e) {
+                Console.WriteLine(e);
+            }
+            db.Documents.Remove(doc);
         }
 
         protected override void Dispose(bool disposing)

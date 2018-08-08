@@ -138,9 +138,20 @@ namespace MOAS_LMS.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ActivityModel activityModel = db.Activities.Find(id);
-            db.Activities.Remove(activityModel);
+
+            DeleteActivity(db, activityModel);
+
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public static void DeleteActivity(ApplicationDbContext db, ActivityModel activity) {
+            var docs = activity.Documents.ToList();
+            foreach (var doc in docs) {
+                DocumentController.DeleteDocument(db, doc);
+            }
+
+            db.Activities.Remove(activity);
         }
 
         protected override void Dispose(bool disposing)
