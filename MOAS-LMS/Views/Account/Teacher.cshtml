@@ -5,37 +5,38 @@
 }
 
 <h2>Teacher overview</h2>
-
-<p>
-    @Html.ActionLink("Create New", "RegisterTeacher")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            User name
-            @*@Html.DisplayNameFor(model => model.UserName)*@
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<section class="col-sm-9 col-md-8 col-sm-push-3 col-md-push-2 homeboyz">
+    <p>
+        @Html.ActionLink("Create New", "RegisterTeacher")
+    </p>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditTeacher", new { id = item.Id }) |
-                @Html.ActionLink("Details", "DetailsTeacher", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "DeleteTeacher", new { id = item.Id })
-            </td>
+            <th>
+                User name
+                @*@Html.DisplayNameFor(model => model.UserName)*@
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "EditTeacher", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "DetailsTeacher", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "DeleteTeacher", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</section>

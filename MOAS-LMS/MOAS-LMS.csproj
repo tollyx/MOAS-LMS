@@ -250,12 +250,15 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\cbpAnimatedHeader.js" />
+    <Content Include="Content\classie.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\coconut-coconut-trees-island.jpg" />
     <Content Include="images\logo-lexicon.gif" />
+    <Content Include="images\lp.jpg" />
     <Content Include="images\pexels-photo.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

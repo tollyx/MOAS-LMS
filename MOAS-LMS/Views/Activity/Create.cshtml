@@ -9,15 +9,16 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+<div class="homeboyz">
 
     <div class="form-horizontal">
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger col-md-2" })
         <div class="form-group">
             @Html.LabelFor(model => model.ActivityTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control" id="ActivityTypeId" name="ActivityTypeId">
-                    @foreach (var item in ViewBag.ActivityTypes) {
+                    @foreach (var item in ViewBag.ActivityTypes)
+                    {
                         <option value=@item.Id>@item.Name</option>
                     }
                 </select>
@@ -62,6 +63,7 @@
             </div>
         </div>
     </div>
+</div>
 }
 
 <div>
