@@ -54,24 +54,37 @@
     </section>
     <aside class="col-md-2">
         @{
-            var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
-            foreach (var assignment in assignments) {
-                var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
-                var aid = "activity" + assignment.Id;
-                if (assignment.EndDate > DateTime.Now || !turnedIn) {
-                    <div>
-                        <h4>
-                            <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
-                        </h4>
-                        @if (!canEdit) {
-                            if (assignment.EndDate < DateTime.Now) {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
-                            if (turnedIn) {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
-                        }
-                        <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
-                        <hr />
-                    </div>
-                }
-            }
+        <h2>Aktivitet</h2>
+        <br />
+
+        var assignments = activities.Where(a => a.ActivityType.Name == "Assignment" && a.ActivityType.AllowUploads == true);
+        foreach (var assignment in assignments)
+        {
+            var turnedIn = assignment.Documents.Any(a => a.Uploader?.Email == User.Identity.Name);
+            var aid = "activity" + assignment.Id;
+            if (assignment.EndDate > DateTime.Now || !turnedIn)
+            {
+
+                
+
+                <div>
+
+
+                    <h4>
+                        <a href="#@aid" onclick="expandActivity(@assignment.Id)">@assignment.Name</a>
+                    </h4>
+                    @if (!canEdit)
+                {
+                    if (assignment.EndDate < DateTime.Now)
+                    {<b class="overdue"><span class="glyphicon glyphicon-remove"></span> Overdue!</b>}
+                if (turnedIn)
+                {<b class="turnedin"><span class="glyphicon glyphicon-ok"></span> Turned in</b>}
+        }
+                    <p><b>Deadline:</b> @assignment.EndDate.ToString("ddd dd MMM, HH:mm")</p>
+                    <hr />
+                </div>
+        }
+    }
         }
     </aside>
 </div>
